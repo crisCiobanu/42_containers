@@ -6,14 +6,14 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:12:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/05 10:40:32 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/05 18:04:20 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include <iostream>
 #include <iterator>
-#include "MyRandomAccessIterator.hpp"
+#include "iterators.hpp"
 
 namespace ft
 {

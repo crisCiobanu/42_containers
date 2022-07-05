@@ -6,12 +6,13 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:12:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/04 12:10:41 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/05 10:40:32 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #pragma once
 #include <iostream>
+#include <iterator>
 #include "MyRandomAccessIterator.hpp"
 
 namespace ft
@@ -60,6 +61,8 @@ class vector {
 		//==============     Member functions     ==============
 
 		vector & operator=(const vector& rhs){
+			reserve(rhs._size);
+			for (size_type i = 0)
 
 		}
 
@@ -203,7 +206,7 @@ class vector {
 
 		}
 		
-		vois swap( reference rhs) {
+		void swap( reference rhs) {
 
 		}
 };

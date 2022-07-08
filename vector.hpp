@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:12:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/05 18:04:20 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/08 10:55:13 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 namespace ft
 {
-template <class T, class Allocator = std::allocator<T>>
+template <class T, class Allocator = std::allocator<T> >
 class vector {
 	public:
 		typedef	T 													value_type;
@@ -29,24 +29,24 @@ class vector {
 		typedef typename Allocator::pointer							pointer;
 		typedef typename Allocator::const_pointer					const_pointer;	
 
-		typedef ft::MyRandomAccessIterator<pointer, vector>			iterator;
-		typedef ft::MyRandomAccessIterator<const_pointer, vecror>	const_iterator;
+		typedef ft::my_iter<value_type>								iterator;
+		typedef ft::my_iter<const value_type>						const_iterator;
 		typedef std::reverse_iterator<iterator>						reverse_iterator;
 		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
-
+		
 	private:
 		pointer			_first;
 		size_type		_size;
 		size_type		_cap;
 		allocator_type	_alloc;
-
+		
 	public:
 		//==============     Constructors          ==============
 		explicit vector(const allocator_type& alloc = allocator_type()) : _first(nullptr), _size(0), _cap(0), _alloc(alloc){}
 		
-		explicit vector(size_type n, const_reference val = value_type, const allocator_type& alloc = allocator_type()) _size(n), _cap(n) , _alloc(alloc) {
+		explicit vector(size_type n, const_reference val = value_type(), const allocator_type& alloc = allocator_type()) : _size(n), _cap(n) , _alloc(alloc) {
 			reserve(n);
-			for (size_type i = 0; i < n, ++i) { 
+			for (size_type i = 0; i < n; ++i) { 
 				_alloc.allocate(_first + i, val);
 			}
 		}
@@ -55,19 +55,19 @@ class vector {
 			for (size_type i = 0; i < _size; ++i){
 				_alloc.destroy(_first + i);
 			}
-			_alloc.dealocate(_first);		
+			_alloc.deallocate(_first, this -> _cap);		
 		}
 
 		//==============     Member functions     ==============
 
 		vector & operator=(const vector& rhs){
-			reserve(rhs._size);
-			for (size_type i = 0)
+			// reserve(rhs._size);
+			// for (size_type i = 0; i < rhs._size; )
 
 		}
 
-		void assign(size_type , const value_type& val){
-
+		void assign(size_type n, const value_type& val){
+			
 		}
 
 		template< class InputIt >
@@ -85,7 +85,7 @@ class vector {
 
 		}
 
-		const_reference at( size_type pos ){
+		const_reference at( size_type pos ) const {
 
 		}
 
@@ -123,21 +123,21 @@ class vector {
 
 		//==============     Iterators            ==============
 
-		iterator begin() {}
+		iterator begin() { return iterator(this -> _first); }
 
-		const_iterator begin() {}
+		const_iterator begin() const {return const_iterator(this -> _first); }
 
-		iterator end() {}
+		iterator end() { return iterator( _first + _size); }
 
-		const_iterator end() {}
+		const_iterator end() const { return const_iterator(this -> _first + this -> _size); }
 
 		reverse_iterator rbegin() {}
 
-		const_reverse_iterator rbegin() {}
+		const_reverse_iterator rbegin() const {}
 
 		reverse_iterator rend() {}
 
-		const_reverse_iterator rend() {}
+		const_reverse_iterator rend() const {}
 
 		//==============     Capacity             ==============
 
@@ -154,13 +154,14 @@ class vector {
 			try{
 				std::uninitialized_copy(_first, _first + _size, tmp);
 			} catch (...){
-				_alloc.deallocate(tmp);
+				_alloc.deallocate(tmp, new_cap);
 				throw;
 			}
-			for (size_type i = 0; i < sz, ++i){
-				_alloc.destroy(_first + i)
-			}
-			_alloc.deallocate(_first);
+			for (size_type i = 0; i < this -> _size; ++i){
+				_alloc.destroy(_first + i);
+			}	
+			if (this -> _cap)		
+				_alloc.deallocate(_first, this -> _cap);
 			_first = tmp;
 			_cap = new_cap;
 		}
@@ -181,7 +182,7 @@ class vector {
 
 		}
 
-		template< classs InputIt >
+		template< class InputIt >
 			void insert( iterator pos , InputIt first, InputIt last) {
 
 			}
@@ -194,8 +195,11 @@ class vector {
 
 		} 
 
-		void push_back (const_reference value){
-
+		void push_back(const_reference value){
+			if (this -> _size == this -> _cap)
+				reserve(this -> _cap == 0 ? 1 : 2 * this -> _size);
+			_alloc.construct(this -> _first + this -> _size, value);
+			++_size;
 		}
 
 		void pop_back() {

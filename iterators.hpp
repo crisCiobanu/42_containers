@@ -15,16 +15,51 @@
 
 namespace ft{
 
+template <class Iter>
+class iterator_traits {
+	public:	
+		typedef typename Iter::iterator_category	iterator_category;
+		typedef typename Iter::value_type			value_type;
+		typedef typename Iter::difference_type		difference_type;
+		typedef typename Iter::pointer				pointer;
+		typedef typename Iter::reference			reference;
+
+};
+
+template <class T>
+class iterator_traits<T*> {
+	public:
+		typedef std::ptrdiff_t						difference_type;
+		typedef T 									value_type;
+		typedef T* 									pointer;
+		typedef T& 									reference;
+		typedef std::random_access_iterator_tag		iterator_category;
+};
+
+template <class T>
+class iterator_traits<const T*> {
+	public:
+		typedef std::ptrdiff_t						difference_type;
+		typedef T 									value_type;
+		typedef const T* 							pointer;
+		typedef const T& 							reference;
+		typedef std::random_access_iterator_tag		iterator_category;
+};
+
+template<class T> struct remove_const { typedef T type; };
+
+template<class T> struct remove_const <const T> { typedef T type; };
+
 template <class T>
 class my_iter{
 
 
 	public:
-		typedef std::ptrdiff_t					difference_type;
-		typedef T 								value_type;
-		typedef T* 								pointer;
-		typedef T& 								reference;
-		typedef std::random_access_iterator_tag	iterator_category;
+		typedef typename ft::iterator_traits<T*>::difference_type		difference_type;
+		typedef typename ft::iterator_traits<T*>::value_type			value_type;
+		typedef typename ft::iterator_traits<T*>::pointer				pointer;
+		typedef typename ft::iterator_traits<T*>::reference				reference;
+		typedef std::random_access_iterator_tag							iterator_category;
 
 	private:
 		pointer _ptr;
@@ -35,15 +70,15 @@ class my_iter{
 
 		my_iter(pointer x) : _ptr(x) {}
 
-		my_iter(const my_iter& rhs) : _ptr(rhs._ptr) {}
+		my_iter(const my_iter<typename remove_const<value_type>::type > & rhs) : _ptr(&(*rhs)) {}
 
-		my_iter & operator=(const my_iter& rhs){
-			if (this != &rhs)
-				_ptr = rhs._ptr;
+
+		my_iter<value_type> & operator=(my_iter<typename remove_const<value_type>::type > const & src) {
+			_ptr = &(*src);
 			return *this;
 		}
 
-		~my_iter() {}
+		virtual ~my_iter() {}
 
 		//==============     Pointer like operations          ==============
 
@@ -51,18 +86,18 @@ class my_iter{
 
 		pointer operator->() const{ return this -> _ptr;}
 
-		reference operator[](const difference_type& offset) const { return this -> _ptr[offset]};
+		reference operator[](const difference_type& offset) const { return this -> _ptr[offset];}
 
 
 		//==============     Increment / Decrement           ==============		
 
 		my_iter& operator++(){ ++(this -> _ptr); return *this; }
 
-		my_iter operator++(int){ pointer tmp = *this ; ++*this ; return my_iter(tmp); }
+		my_iter operator++(int){ return (my_iter(_ptr++));}
 
 		my_iter& operator--(){ --(this -> _ptr); return *this; }
 
-		my_iter operator--(int){ pointer tmp = * this; --*this ; return my_iter(tmp); }
+		my_iter operator--(int){ return (my_iter(_ptr--)); }
 		
 
 		//==============     Arithmetic operations           ==============	
@@ -75,5 +110,37 @@ class my_iter{
 
 		my_iter operator-(const difference_type& n) { return my_iter(this -> _ptr - n); }
 
+		const my_iter &base() const { return this -> _ptr; }
 };
-}
+
+//==============     Comparison operations           ==============	
+
+template < typename IteratorL, typename IteratorR>
+bool operator==(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) == &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator!=(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) != &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator<(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) < &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator>(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) > &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator<=(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) <= &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator>=(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) >= &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+typename my_iter<IteratorL>::difference_type operator-(const my_iter<IteratorL> & lhs, 
+	const my_iter<IteratorR> & rhs){ return &(*lhs) - &(*rhs); }
+
+template < typename Iterator>
+my_iter<Iterator> operator-(const my_iter<Iterator> & iter, typename my_iter<Iterator>::difference_type n){ return iter - n; }
+
+template < typename Iterator>
+my_iter<Iterator> operator+(const my_iter<Iterator> & iter, typename my_iter<Iterator>::difference_type n){ return iter + n; }
+
+};

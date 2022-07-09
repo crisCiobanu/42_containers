@@ -1,26 +1,24 @@
 #pragma once
 
-typedef true RED;
-typedef false BLACK;
-
 namespace ft{
 
-template <class T, class Alloc = std::allocator<T>>
+template <class T, class Alloc = std::allocator<T> >
 struct Node {
-	T data;
+	T     *data;
   	Node *parent;
 	Node *left;
   	Node *right;
   	bool color;
+	bool is_null;
 
 
-	Node():data(0), parent(nullptr),left(nullptr),color(RED){}
+	Node():data(0), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
 	Node(const Node &rhs)
 	{
 		*this = rhs;
-		return ;
+		return;
 	}
-	Node& operator=(const Node &rhs):
+	Node& operator=(const Node &rhs)
 	{
 		if(this != &rhs)
 		{
@@ -29,10 +27,11 @@ struct Node {
 			this->left = rhs.left;
 			this->right = rhs.right;
 			this->color = rhs.color;
+			this->is_null = rhs.is_null; 
 		}
-		return(*this)
+		return(*this);
 	}
-	virtual ~Node()
+	virtual ~Node(){ } ;
 };
 
 template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
@@ -40,15 +39,15 @@ template <class Value, class Compare = std::less<Value>, class Alloc = std::allo
 class rbtree{
 	public:
 		typedef	Value 															value_type;
-		typedef Allocator														allocator_type;
+		typedef Alloc															allocator_type;
 		typedef Compare 														value_compare;
 		typedef std::size_t														size_type;
 		typedef std::ptrdiff_t													difference_type;
 		typedef value_type&														reference;
 		typedef const value_type&												const_reference;
-		typedef typename Allocator::pointer										pointer;
-		typedef typename Allocator::const_pointer								const_pointer;
-		typedef typename Allocator::template rebind<Node<Value> >::other		node_allocator;
+		typedef typename Alloc::pointer											pointer;
+		typedef typename Alloc::const_pointer									const_pointer;
+		typedef typename Alloc::template rebind<Node<Value> >::other			node_allocator;
 		typedef typename node_allocator::pointer								node_pointer;
 
 		// typedef ft::my_iter<value_type>								iterator;
@@ -93,7 +92,7 @@ class rbtree{
     return y;
   }
 
-  node_pointer predecessor(node_pointer x) {
+  node_pointer ptrueecessor(node_pointer x) {
     if (x->left != TNULL) {
       return maximum(x->left);
     }
@@ -142,21 +141,69 @@ class rbtree{
     y->right = x;
     x->parent = y;
   }
-
+	public :
   //Creating a node
 
-  node_pointer createNode(const value_type & data){
-	node_pointer node = node_allocator.allocate(1);
-    node_allocator.construct(node, data);
+    node_pointer createNode(const value_type & data){
+		node_pointer node = node_alloc.allocate(1);
+    	node_alloc.construct(node, Node<Value>());
 
     node->data = data;
 	return (node);
   }
+
+
+
+  // For balancing the tree after insertion
+  void insertFix(node_pointer k) {
+    node_pointer u;
+    while (k->parent->color == 1) {
+      if (k->parent == k->parent->parent->right) {
+        u = k->parent->parent->left;
+        if (u->color == 1) {
+          u->color = 0;
+          k->parent->color = 0;
+          k->parent->parent->color = 1;
+          k = k->parent->parent;
+        } else {
+          if (k == k->parent->left) {
+            k = k->parent;
+            rightRotate(k);
+          }
+          k->parent->color = 0;
+          k->parent->parent->color = 1;
+          leftRotate(k->parent->parent);
+        }
+      } else {
+        u = k->parent->parent->right;
+
+        if (u->color == 1) {
+          u->color = 0;
+          k->parent->color = 0;
+          k->parent->parent->color = 1;
+          k = k->parent->parent;
+        } else {
+          if (k == k->parent->right) {
+            k = k->parent;
+            leftRotate(k);
+          }
+          k->parent->color = 0;
+          k->parent->parent->color = 1;
+          rightRotate(k->parent->parent);
+        }
+      }
+      if (k == root) {
+        break;
+      }
+    }
+    root->color = 0;
+  }
   // Inserting a node
   void insert(const value_type & data) {
 
-
-    node_pointer y = nullptr;
+	node_pointer node = createNode(data);
+    
+	node_pointer y = nullptr;
     node_pointer x = this->root;
 
     while (x != TNULL) {
@@ -188,59 +235,76 @@ class rbtree{
 
     insertFix(node);
   }
-
+	private:
 	void init_tree() {
 		this -> TNULL = node_alloc.allocate(1);
 		node_alloc.construct(this -> TNULL, Node<Value>());
-		this -> TNULL.color = BLACK;
+		this -> TNULL -> color = false;
 
 		this -> header = node_alloc.allocate(1);
-		node_alloc.constrcut(this -> header, Node<Value>());
-		this -> header = BLACK;
+		node_alloc.construct(this -> header, Node<Value>());
+		this -> header -> color = false;
+		header->data = con_alloc.allocate(1);
+		con_alloc.construct(header->value, Value());
+	}
+
+	node_pointer copy_node(node_pointer rhs){
+		node_pointer tmp = con_alloc.allocate(1);
+		con_alloc.construct(tmp, Node<Value>());
+		tmp -> color = rhs.color;
+		tmp -> is_null = rhs.is_null;
+		tmp -> data = rhs.data;
+		return tmp;
+	}
+
+
+	void copy_branches(node_pointer lhs, node_pointer rhs){
+		if (rhs -> left -> is_null)
+			lhs -> left = TNULL;
+		else {
+			lhs -> left = rhs -> left;
+			lhs -> left -> parent = lhs;
+			copy_branches(lhs -> left, rhs -> left);
+		}
+
+
 	}
 	public:
 
-		rbtree() : root(0), con_allocator(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), size(0) {
+		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), size(0) {
 			init_tree();
 			this -> root = this -> header;
 		}
 
-		rtbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
-			root(0), con_allocator(alloc), node_alloc(node_allocator()), cmp(comp), size(0){
-				init_tree();
+		rbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
+			root(0), con_alloc(alloc), node_alloc(node_allocator()), cmp(comp), size(0){
+			init_tree();
 			this -> root = this -> header;
-
 		}
 
-		~rbtree()
+		virtual ~rbtree()
 		{
 
 		}
-		rbtree & opeartor=(rbtree const &rhs)
-		{
-			if(*this!=rhs)
-			{
-				root = ;
-		  		TNULL = ;
-				header = ;
-				con_alloc = ;
-				 node_alloc = ;
-				cmp = ;
-				size = ;
+		// rbtree & opeartor=(rbtree const &rhs)
+		// {
+		// 	if(*this!=rhs)
+		// 	{
+		// 		root = ;
+		//   		TNULL = ;
+		// 		header = ;
+		// 		con_alloc = ;
+		// 		node_alloc = ;
+		// 		cmp = ;
+		// 		size = ;
 
-			}
-			return(*this);
+		// 	}
+		// 	return(*this);
 
-		}
-
-
+		// }
 
 
-		}
 
 };
-
-
-
 
 };

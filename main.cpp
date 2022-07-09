@@ -1,29 +1,15 @@
 #include "vector.hpp"
-
-template <class T, class Alloc = std::allocator<T>>
-struct Node {
-	T data;
-  	Node *parent;
-	Node *left;
-  	Node *right;
-  	bool color;
-
-	Node(){
-		this->data = 0;
- 		this->parent = nullptr;
- 		this->left = nullptr;
- 		this->right = nullptr;
- 		this->color = RED;
-	}
-};
-
-typedef std::allocator<int>::template rebind<Node<int> >::other		node_allocator;
-
-
+#include "node.hpp"
 
 int main(void){
 
+	ft::rbtree<int> tree = ft::rbtree<int>();
 
+	//tree.insert(100);
+
+
+	ft::Node<int> * ptr = tree.createNode(20);
+	std::cout << ptr->data << std::endl;
 
 
 	// ft::vector<int> ft_vec = ft::vector<int>();

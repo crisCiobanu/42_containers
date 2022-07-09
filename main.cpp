@@ -8,8 +8,8 @@ int main(void){
 	//tree.insert(100);
 
 
-	ft::Node<int> * ptr = tree.createNode(20);
-	std::cout << ptr->data << std::endl;
+	//ft::Node<int> * ptr = tree.createNode(20);
+	//std::cout << *(ptr->data) << std::endl;
 
 
 	// ft::vector<int> ft_vec = ft::vector<int>();

@@ -4,6 +4,7 @@ namespace ft{
 
 template <class T, class Alloc = std::allocator<T> >
 struct Node {
+	typedef T value_type;
 	T     *data;
   	Node *parent;
 	Node *left;
@@ -18,6 +19,9 @@ struct Node {
 		*this = rhs;
 		return;
 	}
+	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){
+		*(this -> data) = rhs;
+	};
 	Node& operator=(const Node &rhs)
 	{
 		if(this != &rhs)
@@ -144,11 +148,9 @@ class rbtree{
 	public :
   //Creating a node
 
-    node_pointer createNode(const value_type & data){
-		node_pointer node = node_alloc.allocate(1);
-    	node_alloc.construct(node, Node<Value>());
-
-    node->data = data;
+    pointer createValue(const value_type & data){
+		pointer val = con_alloc.allocate(1);
+    	con_alloc.construct(val, data);
 	return (node);
   }
 
@@ -245,7 +247,7 @@ class rbtree{
 		node_alloc.construct(this -> header, Node<Value>());
 		this -> header -> color = false;
 		header->data = con_alloc.allocate(1);
-		con_alloc.construct(header->value, Value());
+		con_alloc.construct(header->data, Value());
 	}
 
 	node_pointer copy_node(node_pointer rhs){

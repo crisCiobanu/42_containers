@@ -26,32 +26,32 @@ class RedBlackTree {
     node->color = 0;
   }
 
-  // Preorder
-  void preOrderHelper(NodePtr node) {
-    if (node != TNULL) {
-      cout << node->data << " ";
-      preOrderHelper(node->left);
-      preOrderHelper(node->right);
-    }
-  }
+//   // Preorder
+//   void preOrderHelper(NodePtr node) {
+//     if (node != TNULL) {
+//       cout << node->data << " ";
+//       preOrderHelper(node->left);
+//       preOrderHelper(node->right);
+//     }
+//   }
 
-  // Inorder
-  void inOrderHelper(NodePtr node) {
-    if (node != TNULL) {
-      inOrderHelper(node->left);
-      cout << node->data << " ";
-      inOrderHelper(node->right);
-    }
-  }
+//   // Inorder
+//   void inOrderHelper(NodePtr node) {
+//     if (node != TNULL) {
+//       inOrderHelper(node->left);
+//       cout << node->data << " ";
+//       inOrderHelper(node->right);
+//     }
+//   }
 
-  // Post order
-  void postOrderHelper(NodePtr node) {
-    if (node != TNULL) {
-      postOrderHelper(node->left);
-      postOrderHelper(node->right);
-      cout << node->data << " ";
-    }
-  }
+//   // Post order
+//   void postOrderHelper(NodePtr node) {
+//     if (node != TNULL) {
+//       postOrderHelper(node->left);
+//       postOrderHelper(node->right);
+//       cout << node->data << " ";
+//     }
+//   }
 
   NodePtr searchTreeHelper(NodePtr node, int key) {
     if (node == TNULL || key == node->data) {
@@ -259,17 +259,17 @@ class RedBlackTree {
     root = TNULL;
   }
 
-  void preorder() {
-    preOrderHelper(this->root);
-  }
+//   void preorder() {
+//     preOrderHelper(this->root);
+//   }
 
-  void inorder() {
-    inOrderHelper(this->root);
-  }
+//   void inorder() {
+//     inOrderHelper(this->root);
+//   }
 
-  void postorder() {
-    postOrderHelper(this->root);
-  }
+//   void postorder() {
+//     postOrderHelper(this->root);
+//   }
 
   NodePtr searchTree(int k) {
     return searchTreeHelper(this->root, k);

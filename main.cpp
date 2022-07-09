@@ -1,49 +1,74 @@
 #include "vector.hpp"
 
+template <class T, class Alloc = std::allocator<T>>
+struct Node {
+	T data;
+  	Node *parent;
+	Node *left;
+  	Node *right;
+  	bool color;
+
+	Node(){
+		this->data = 0;
+ 		this->parent = nullptr;
+ 		this->left = nullptr;
+ 		this->right = nullptr;
+ 		this->color = RED;
+	}
+};
+
+typedef std::allocator<int>::template rebind<Node<int> >::other		node_allocator;
+
+
+
 int main(void){
-	ft::vector<int> ft_vec = ft::vector<int>();
-
-	ft_vec.push_back(10);
-	ft_vec.push_back(2);
-	ft_vec.push_back(10);
-	ft_vec.push_back(2);
-	ft_vec.push_back(10);
-	ft_vec.push_back(2);
-	std::cout << ft_vec.capacity() << " " << ft_vec.size() << std::endl;
-
-	ft::vector<int>::iterator start = ft_vec.begin();
-	ft::vector<int>::iterator end = ft_vec.end();
-
-	//start++;
-	*start = 50;
-
-	std::cout << "Iter is : " << *start << std::endl;
-
-	ft::vector<int> ft_vec1 = ft::vector<int>();
-
-	ft_vec1.push_back(10);
-	ft_vec1.push_back(2);
-	ft_vec1.push_back(10);
-	ft_vec1.push_back(2);
-	ft_vec1.push_back(10);
-	ft_vec1.push_back(2);
-	std::cout << ft_vec1.capacity() << " " << ft_vec1.size() << std::endl;
-
-	ft::vector<int>::const_iterator start1 = ft_vec1.begin();
-	ft::vector<int>::const_iterator end1 = ft_vec1.end();
-
-	//start++;
-	//*start1 = 50;
 
 
-		ft::vector<int>::iterator first = ft_vec1.begin();
-		ft::vector<int>::const_iterator second = ft_vec1.begin();
 
-		first++;
-		first++;
 
-		first-=1;
-		std::cout << "Minus : " << *(first) << std::endl;
+	// ft::vector<int> ft_vec = ft::vector<int>();
 
-	std::cout << "Comparisions :" << (first <= second? "true" : "false") << std::endl; 
+	// ft_vec.push_back(10);
+	// ft_vec.push_back(2);
+	// ft_vec.push_back(10);
+	// ft_vec.push_back(2);
+	// ft_vec.push_back(10);
+	// ft_vec.push_back(2);
+	// std::cout << ft_vec.capacity() << " " << ft_vec.size() << std::endl;
+
+	// ft::vector<int>::iterator start = ft_vec.begin();
+	// ft::vector<int>::iterator end = ft_vec.end();
+
+	// //start++;
+	// *start = 50;
+
+	// std::cout << "Iter is : " << *start << std::endl;
+
+	// ft::vector<int> ft_vec1 = ft::vector<int>();
+
+	// ft_vec1.push_back(10);
+	// ft_vec1.push_back(2);
+	// ft_vec1.push_back(10);
+	// ft_vec1.push_back(2);
+	// ft_vec1.push_back(10);
+	// ft_vec1.push_back(2);
+	// std::cout << ft_vec1.capacity() << " " << ft_vec1.size() << std::endl;
+
+	// ft::vector<int>::const_iterator start1 = ft_vec1.begin();
+	// ft::vector<int>::const_iterator end1 = ft_vec1.end();
+
+	// //start++;
+	// //*start1 = 50;
+
+
+	// 	ft::vector<int>::iterator first = ft_vec1.begin();
+	// 	ft::vector<int>::const_iterator second = ft_vec1.begin();
+
+	// 	first++;
+	// 	first++;
+
+	// 	first-=1;
+	// 	std::cout << "Minus : " << *(first) << std::endl;
+
+	// std::cout << "Comparisions :" << (first <= second? "true" : "false") << std::endl; 
 }

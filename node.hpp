@@ -14,13 +14,25 @@ struct Node {
   	bool color;
 
 
-	Node(){
-		this->data = 0;
- 		this->parent = nullptr;
- 		this->left = nullptr;
- 		this->right = nullptr;
- 		this->color = RED;
+	Node():data(0), parent(nullptr),left(nullptr),color(RED){}
+	Node(const Node &rhs)
+	{
+		*this = rhs;
+		return ;
 	}
+	Node& operator=(const Node &rhs):
+	{
+		if(this != &rhs)
+		{
+			this->data = rhs.data;
+			this->parent = rhs.parent;
+			this->left = rhs.left;
+			this->right = rhs.right;
+			this->color = rhs.color;
+		}
+		return(*this)
+	}
+	virtual ~Node()
 };
 
 template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
@@ -35,7 +47,7 @@ class rbtree{
 		typedef value_type&														reference;
 		typedef const value_type&												const_reference;
 		typedef typename Allocator::pointer										pointer;
-		typedef typename Allocator::const_pointer								const_pointer;	
+		typedef typename Allocator::const_pointer								const_pointer;
 		typedef typename Allocator::template rebind<Node<Value> >::other		node_allocator;
 		typedef typename node_allocator::pointer								node_pointer;
 
@@ -53,7 +65,7 @@ class rbtree{
 		value_compare 		cmp;
 		size_type 			size;
 
-		
+
 		node_pointer minimum(node_pointer node) {
 			while (node->left != TNULL) {
       			node = node->left;
@@ -186,21 +198,43 @@ class rbtree{
 		node_alloc.constrcut(this -> header, Node<Value>());
 		this -> header = BLACK;
 	}
-	public: 
+	public:
 
 		rbtree() : root(0), con_allocator(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), size(0) {
 			init_tree();
 			this -> root = this -> header;
 		}
 
-		rtbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) : 
+		rtbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
 			root(0), con_allocator(alloc), node_alloc(node_allocator()), cmp(comp), size(0){
 				init_tree();
 			this -> root = this -> header;
 
 		}
 
-		~rbtree(){
+		~rbtree()
+		{
+
+		}
+		rbtree & opeartor=(rbtree const &rhs)
+		{
+			if(*this!=rhs)
+			{
+				root = ;
+		  		TNULL = ;
+				header = ;
+				con_alloc = ;
+				 node_alloc = ;
+				cmp = ;
+				size = ;
+
+			}
+			return(*this);
+
+		}
+
+
+
 
 		}
 

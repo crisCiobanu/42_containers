@@ -1,5 +1,7 @@
 #pragma once
 
+using namespace std;
+
 namespace ft{
 
 // struct Node
@@ -116,7 +118,6 @@ class rbtree{
 	private:
 		node_pointer 		root;
   		node_pointer 		TNULL;
-		node_pointer 		header;
 		allocator_type 		con_alloc;
 		node_allocator 		node_alloc;
 		value_compare 		cmp;
@@ -124,21 +125,8 @@ class rbtree{
 
 	public:
 
-		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), size(0) {
-			init_tree();
-			this -> root = this -> header;
-		}
 
-		rbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
-			root(0), con_alloc(alloc), node_alloc(node_allocator()), cmp(comp), size(0){
-			init_tree();
-			this -> root = this -> header;
-		}
 
-		 ~rbtree()
-		{
-
-		}
 		//	Iterators
 		iterator begin()
 		{
@@ -162,10 +150,10 @@ class rbtree{
 		{
 
 		}
-		size_type size()
-		{
+		// size_type size()
+		// {
 
-		}
+		// }
 		size_type max_size() const
 		{
 
@@ -178,7 +166,6 @@ class rbtree{
 		{
 			node_pointer node = node_alloc.allocate(1);
 			node_alloc.construct(node, data);
-			node->parent = TNULL;
 			node->left = TNULL;
 			node->right = TNULL;
 			node->color = true;
@@ -268,8 +255,6 @@ class rbtree{
 	public :
 
 
-
-
   // For balancing the tree after insertion
   void insertFix(node_pointer k) {
     node_pointer u;
@@ -339,6 +324,7 @@ class rbtree{
     } else {
       y->right = node;
     }
+	++(this -> size);
 
     if (node->parent == nullptr) {
       node->color = 0;
@@ -355,18 +341,16 @@ class rbtree{
 	void init_tree() {
 		TNULL = node_alloc.allocate(1);
 		node_alloc.construct( TNULL, 0);
-		TNULL -> color = false;
-		TNULL -> right = nullptr;
-		TNULL -> left = nullptr;
-		this->header = TNULL;
+		TNULL -> color = 0;
+		TNULL -> is_null = 1;
 	}
 
 	node_pointer copy_node(node_pointer rhs){
 		node_pointer tmp = node_alloc.allocate(1);
 		node_alloc.construct(tmp, Node<Value>());
-		tmp -> color = rhs.color;
-		tmp -> is_null = rhs.is_null;
-		tmp -> data = rhs.data;
+		tmp -> color = rhs -> color;
+		tmp -> is_null = rhs -> is_null;
+		tmp -> data = rhs -> data;
 		return tmp;
 	}
 
@@ -375,24 +359,31 @@ class rbtree{
 		if (rhs -> left -> is_null)
 			lhs -> left = TNULL;
 		else {
-			lhs -> left = rhs -> left;
+			lhs -> left = copy_node(rhs -> left);
 			lhs -> left -> parent = lhs;
 			copy_branches(lhs -> left, rhs -> left);
+		}
+		if (rhs -> right -> is_null)
+			lhs -> right = TNULL;
+		else {
+			lhs -> right = copy_node(rhs -> right);
+			lhs -> right -> parent = lhs;
+			copy_branches(lhs -> right, rhs -> right);
 		}
 	}
 	//delete
 	void delete_node(node_pointer ptr)
 	{
-		con_alloc.destroy(ptr);
-		con_alloc.deallocate(ptr, 1);
+		node_alloc.destroy(ptr);
+		node_alloc.deallocate(ptr, 1);
 	}
 
 	void delete_all_node(node_pointer ptr)
 	{
 	  if (ptr != TNULL)
 	  {
-		delete_all_node(ptr->_left);
-		delete_all_node(ptr->_right);
+		delete_all_node(ptr-> left);
+		delete_all_node(ptr-> right);
 		delete_node(ptr);
 	  }
 	}
@@ -520,29 +511,72 @@ class rbtree{
       }
       x->color = 0;
     }
-public:
+
+	public:
 	void deleteNode(value_type data) {
 	  deleteNodeHelper(this->root, data);
 	}
 
-		// rbtree & opeartor=(rbtree const &rhs)
-		// {
-		// 	if(*this!=rhs)
-		// 	{
-		// 		root = ;
-		//   		TNULL = ;
-		// 		header = ;
-		// 		con_alloc = ;
-		// 		node_alloc = ;
-		// 		cmp = ;
-		// 		size = ;
+		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), size(0) {
+			init_tree();
+			this -> root = this -> TNULL;
+		}
 
-		// 	}
-		// 	return(*this);
+		rbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
+			root(0), con_alloc(alloc), node_alloc(node_allocator()), cmp(comp), size(0){
+			init_tree();
+			this -> root = this -> TNULL;
+		}
 
-		// }
+		 ~rbtree()
+		{
 
+		}
 
+		void del(){
+			delete_all_node(this -> root);
+		}
+
+		rbtree & operator=(rbtree const &rhs)
+		{
+			if(this == &rhs)
+				return(*this);
+			this -> con_alloc = rhs.con_alloc;
+			this -> node_alloc = rhs.node_alloc;
+			this -> cmp = rhs.cmp;
+
+			delete_all_node(this -> root);
+			if (rhs.size == 0)
+				this -> root = this -> TNULL;
+			else {
+				this -> root = copy_node(rhs.root);
+				copy_branches(this -> root , rhs.root);
+			}
+			this -> size = rhs.size;
+			return (*this);
+		}
+
+		node_pointer getRoot(){
+			return (this -> root);
+		}
+
+	void printHelper(node_pointer root, string indent, bool last) {
+    	if (root != TNULL) {
+      		cout << indent;
+      	if (last) {
+        	cout << "R----";
+        	indent += "   ";
+      	} else {
+        	cout << "L----";
+        	indent += "|  ";
+      	}
+
+      string sColor = root->color ? "RED" : "BLACK";
+      cout << root->data << "(" << sColor << ")" << endl;
+      printHelper(root->left, indent, false);
+      printHelper(root->right, indent, true);
+    }
+  }
 
 };
 

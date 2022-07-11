@@ -3,12 +3,29 @@
 
 int main(void){
 
-	ft::rbtree<int> tree = ft::rbtree<int>();
+	ft::rbtree<int> tree;
 
 	tree.insert(100);
 	tree.insert(200);
 	tree.insert(300);
 	tree.deleteNode(200);
+
+	ft::rbtree<int> second;
+
+	// second.insert(55);
+	// second.insert(66);
+	std::cout << "Second tree : " << std::endl;
+	second.printHelper(second.getRoot(), "", true);
+	second = tree;
+	std::cout << "Second tree : " << std::endl;
+	second.printHelper(second.getRoot(), "", true);
+
+	std::cout << "First tree : " << std::endl;
+	tree.printHelper(tree.getRoot(), "", true);
+
+	std::cout << "Second tree : " << std::endl;
+	second.printHelper(second.getRoot(), "", true);
+
 
 
 	//ft::Node<int> * ptr = tree.createNode(20);

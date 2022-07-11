@@ -3,7 +3,7 @@
 
 int main(void){
 
-	ft::rbtree<int> tree = ft::rbtree<int>();
+	ft::rbtree<int> tree();
 
 	//tree.insert(100);
 

@@ -42,11 +42,53 @@ struct Node {
 
 
 // class iterator
-template <typename U, typename V>
+template <typename U>
 class tree_iterator
 {
 
+	public :
+		typedef U                                                   value_type;
+	    typedef value_type*                                         pointer;
+	    typedef value_type&                                         reference;
+	    typedef typename iterator_traits<U*>::difference_type    	difference_type;
+	    typedef typename iterator_traits<U*>::value_type         	node_type;
+	    typedef typename iterator_traits<U*>::pointer            	node_pointer;
+	    typedef typename iterator_traits<U*>::reference          	node_reference;
+	    typedef typename iterator_traits<U*>::iterator_category  	iterator_category;
+	private:
+		node_pointer _current;
+	public:
+		tree_iterator():_current(nullptr){}
+		tree_iterator(node_pointer node):_current(node){}
+		tree_iterator& operator =(const tree_iterator &rhs)
+		{
+			if(this != &rhs)
+			{
+				this->_current = rhs._current;
+			}
+			return(*this);
+		}
 
+		tree_iterator(const tree_iterator &rhs)
+		{
+			*this = rhs;
+			return;
+		}
+
+		~tree_iterator()
+		{
+			return;
+		}
+
+		reference operator*() const
+		{
+			return(_current->data);
+		}
+
+		pointer operator->() const
+		{
+			return(&operator*());
+		}
 };
 
 
@@ -65,13 +107,11 @@ class rbtree{
 		typedef typename Alloc::const_pointer									const_pointer;
 		typedef typename Alloc::template rebind<Node<Value> >::other			node_allocator;
 		typedef typename node_allocator::pointer								node_pointer;
-		// typedef Node<value_type>*                                       node_pointer;
 
-
-		// typedef ft::my_iter<value_type>								iterator;
-		// typedef ft::my_iter<const value_type>						const_iterator;
-		// typedef std::reverse_iterator<iterator>						reverse_iterator;
-		// typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
+	 	typedef ft::my_iter<value_type>								iterator;
+	 	typedef ft::my_iter<const value_type>						const_iterator;
+		typedef std::reverse_iterator<iterator>						reverse_iterator;
+		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
 
 	private:
 		node_pointer 		root;
@@ -99,6 +139,39 @@ class rbtree{
 		{
 
 		}
+		//	Iterators
+		iterator begin()
+		{
+
+		}
+
+		const_iterator begin() const
+		{
+		}
+		iterator end()
+		{
+
+		}
+
+		const_iterator end() const
+		{
+
+		}
+
+		bool empty()const
+		{
+
+		}
+		size_type size()
+		{
+
+		}
+		size_type max_size() const
+		{
+
+		}
+
+
 
 		// create a node
 		node_pointer createNode(const value_type & data)

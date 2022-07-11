@@ -1,5 +1,5 @@
 #include "vector.hpp"
-#include "node0.hpp"
+#include "node00.hpp"
 
 int main(void){
 
@@ -8,6 +8,8 @@ int main(void){
 	tree.insert(100);
 	tree.insert(200);
 	tree.insert(300);
+	for(ft::rbtree<int>::iterator start = tree.begin(); start < tree.end(); start = start + 1)
+		std::cout << *start <<std::endl;
 	tree.deleteNode(200);
 
 	ft::rbtree<int> second;

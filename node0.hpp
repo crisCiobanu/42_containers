@@ -307,13 +307,16 @@ class rbtree{
   }
 	private:
 	void init_tree() {
-		this -> TNULL = node_alloc.allocate(1);
-		node_alloc.construct(this -> TNULL, Node<Value>());
-		this -> TNULL -> color = false;
+		TNULL = node_alloc.allocate(1);
+		node_alloc.construct( TNULL, 0);
+		TNULL -> color = false;
+		TNULL -> right = nullptr;
+		TNULL -> left = nullptr;
+		this->header = TNULL;
 
-		this -> header = node_alloc.allocate(1);
-		node_alloc.construct(this -> header, Node<Value>());
-		this -> header -> color = false;
+		// this -> header = node_alloc.allocate(1);
+		// node_alloc.construct(this -> header, Node<Value>());
+		// this -> header -> color = false;
 		// header->data = con_alloc.allocate(1);
 		// con_alloc.construct(header->data, Value());
 	}

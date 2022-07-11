@@ -6,6 +6,9 @@ int main(void){
 	ft::rbtree<int> tree = ft::rbtree<int>();
 
 	tree.insert(100);
+	tree.insert(200);
+	tree.insert(300);
+	tree.deleteNode(200);
 
 
 	//ft::Node<int> * ptr = tree.createNode(20);

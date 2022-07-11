@@ -100,19 +100,7 @@ class rbtree{
 
 		}
 
-	// 	void create_tNull_and_header() {
-	// 	_nil = _node_alloc.allocate(1);
-	// 	_node_alloc.construct(_nil, node<Content>());
-	// 	_nil->is_black = true;
-	// 	_nil->is_nil = true;
-	// 	_header = _node_alloc.allocate(1);
-	// 	_node_alloc.construct(_header, node<Content>());
-	// 	_header->content = _con_alloc.allocate(1);
-	// 	_con_alloc.construct(_header->content, Content());
-	// 	_header->is_black = true;
-	// }
-		//Creating a node
-
+		// create a node
 		node_pointer createNode(const value_type & data)
 		{
 			node_pointer node = node_alloc.allocate(1);
@@ -121,25 +109,10 @@ class rbtree{
 			node->left = TNULL;
 			node->right = TNULL;
 			node->color = true;
-			// node->isnull = TNULL;
 			return (node);
 		}
 
-		void delete_node(node_pointer ptr)
-		{
-			con_alloc.destroy(ptr);
-			con_alloc.deallocate(ptr, 1);
-		}
 
-		void delete_all_node(node_pointer ptr)
-		{
-	      if (ptr != TNULL)
-		  {
-	      	delete_all_node(ptr->_left);
-	      	delete_all_node(ptr->_right);
-	      	delete_node(ptr);
-		  }
-	    }
 
 		node_pointer minimum(node_pointer node)
 		{
@@ -313,12 +286,6 @@ class rbtree{
 		TNULL -> right = nullptr;
 		TNULL -> left = nullptr;
 		this->header = TNULL;
-
-		// this -> header = node_alloc.allocate(1);
-		// node_alloc.construct(this -> header, Node<Value>());
-		// this -> header -> color = false;
-		// header->data = con_alloc.allocate(1);
-		// con_alloc.construct(header->data, Value());
 	}
 
 	node_pointer copy_node(node_pointer rhs){
@@ -339,6 +306,150 @@ class rbtree{
 			lhs -> left -> parent = lhs;
 			copy_branches(lhs -> left, rhs -> left);
 		}
+	}
+	//delete
+	void delete_node(node_pointer ptr)
+	{
+		con_alloc.destroy(ptr);
+		con_alloc.deallocate(ptr, 1);
+	}
+
+	void delete_all_node(node_pointer ptr)
+	{
+	  if (ptr != TNULL)
+	  {
+		delete_all_node(ptr->_left);
+		delete_all_node(ptr->_right);
+		delete_node(ptr);
+	  }
+	}
+
+	void rbTransplant(node_pointer u, node_pointer v) {
+      if (u->parent == nullptr) {
+        root = v;
+      } else if (u == u->parent->left) {
+        u->parent->left = v;
+      } else {
+        u->parent->right = v;
+      }
+      v->parent = u->parent;
+    }
+
+
+    void deleteNodeHelper(node_pointer node, int key) {
+      node_pointer z = TNULL;
+      node_pointer x, y;
+      while (node != TNULL) {
+        if (node->data == key) {
+          z = node;
+        }
+
+        if (node->data <= key) {
+          node = node->right;
+        } else {
+          node = node->left;
+        }
+      }
+
+      if (z == TNULL) {
+        std::cout << "Key not found in the tree" << std::endl;
+        return;
+      }
+
+      y = z;
+      int y_original_color = y->color;
+      if (z->left == TNULL) {
+        x = z->right;
+        rbTransplant(z, z->right);
+      } else if (z->right == TNULL) {
+        x = z->left;
+        rbTransplant(z, z->left);
+      } else {
+        y = minimum(z->right);
+        y_original_color = y->color;
+        x = y->right;
+        if (y->parent == z) {
+          x->parent = y;
+        } else {
+          rbTransplant(y, y->right);
+          y->right = z->right;
+          y->right->parent = y;
+        }
+
+        rbTransplant(z, y);
+        y->left = z->left;
+        y->left->parent = y;
+        y->color = z->color;
+      }
+      delete z;
+      if (y_original_color == 0) {
+        deleteFix(x);
+      }
+    }
+
+	// For balancing the tree after deletion
+    void deleteFix(node_pointer x) {
+      node_pointer s;
+      while (x != root && x->color == 0) {
+        if (x == x->parent->left) {
+          s = x->parent->right;
+          if (s->color == 1) {
+            s->color = 0;
+            x->parent->color = 1;
+            leftRotate(x->parent);
+            s = x->parent->right;
+          }
+
+          if (s->left->color == 0 && s->right->color == 0) {
+            s->color = 1;
+            x = x->parent;
+          } else {
+            if (s->right->color == 0) {
+              s->left->color = 0;
+              s->color = 1;
+              rightRotate(s);
+              s = x->parent->right;
+            }
+
+            s->color = x->parent->color;
+            x->parent->color = 0;
+            s->right->color = 0;
+            leftRotate(x->parent);
+            x = root;
+          }
+        } else {
+          s = x->parent->left;
+          if (s->color == 1) {
+            s->color = 0;
+            x->parent->color = 1;
+            rightRotate(x->parent);
+            s = x->parent->left;
+          }
+
+          if (s->right->color == 0 && s->right->color == 0) {
+            s->color = 1;
+            x = x->parent;
+          } else {
+            if (s->left->color == 0) {
+              s->right->color = 0;
+              s->color = 1;
+              leftRotate(s);
+              s = x->parent->left;
+            }
+
+            s->color = x->parent->color;
+            x->parent->color = 0;
+            s->left->color = 0;
+            rightRotate(x->parent);
+            x = root;
+          }
+        }
+      }
+      x->color = 0;
+    }
+public:
+	void deleteNode(value_type data) {
+	  deleteNodeHelper(this->root, data);
 	}
 
 		// rbtree & opeartor=(rbtree const &rhs)

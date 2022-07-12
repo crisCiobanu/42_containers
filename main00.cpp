@@ -11,8 +11,14 @@ int main(void){
 	tree.insert(300);
 	ft::rbtree<int>::iterator iter = tree.begin();
 
-	for(iter = tree.begin(); iter != tree.end(); iter++)
-		std::cout << *iter << std::endl;
+	// for(iter = tree.begin(); iter != tree.end(); iter++)
+	// 	std::cout << *iter << std::endl;
+	// --iter;
+	// ++iter;
+	// ++iter;
+	--iter;
+	++iter;
+	std::cout << *iter << std::endl;
 
 
 

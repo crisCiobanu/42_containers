@@ -56,12 +56,16 @@ class tree_iterator {
   typedef typename iterator_traits<iterator_type>::iterator_category  iterator_category;
 
   private:
-  node_pointer  current;
+  node_pointer  	current;
+  node_pointer 		TNULL;
+  node_pointer 		root;
 
   public:
-  tree_iterator() : current(nullptr) {}
-  tree_iterator(node_pointer cur) : current(cur) {}
-  tree_iterator(const tree_iterator& ref) : current(ref.current){}
+  tree_iterator() : current(nullptr),TNULL(nullptr) {}
+  tree_iterator(node_pointer cur, node_pointer tnull) : current(cur), TNULL(tnull) {}
+  tree_iterator(node_pointer cur, node_pointer tnull,node_pointer rout) : current(cur), TNULL(tnull), root(rout) {}
+  tree_iterator(node_pointer cur) : current(nullptr), TNULL(cur) {}
+  tree_iterator(const tree_iterator& ref) : current(ref.current),TNULL(ref.TNULL){}
   ~tree_iterator() {}
 
   tree_iterator& operator=(const tree_iterator& ref) {
@@ -72,55 +76,103 @@ class tree_iterator {
   }
 
 
-  reference    operator*()  const { return (current->data); }
+  reference    operator*()  const
+  {
+	  if(current == NULL)
+		 return (TNULL->data);
+	  return (current->data);
+  }
 	pointer      operator->() const { return (&operator*()); }
-	node_pointer minimum(node_pointer node)
-	{
-		while (!(node->left->is_null)) {
-			node = node->left;
-		}
-		return node;
-	}
-	node_pointer maximum(node_pointer node) {
-      while (!node->is_null) {
-        node = node->right;
-      }
-      return node;
-    }
+	// node_pointer minimum(node_pointer node)
+	// {
+	// 	while (!(node->left->is_null)) {
+	// 		node = node->left;
+	// 	}
+	// 	return node;
+	// }
+	// node_pointer maximum(node_pointer node) {
+    //   while (!node->is_null) {
+    //     node = node->right;
+    //   }
+    //   return node;
+    // }
+	//
+    // node_pointer successor(node_pointer x) {
+    //   if (!(x->right->is_null)) {
+    //     return minimum(x->right);
+    //   }
+	//
+    //   node_pointer y = x->parent;
+    //   while (!(y->is_null) && x == y->right) {
+    //     x = y;
+    //     y = y->parent;
+    //   }
+    //   return y;
+    // }
+	//
+    // node_pointer precedent(node_pointer x) {
+    //   if (!(x->left->is_null)) {
+    //     return maximum(x->left);
+    //   }
+	//
+    //   node_pointer y = x->parent;
+    //   while (!(y->is_null) && x == y->left) {
+    //     x = y;
+    //     y = y->parent;
+    //   }
+	//
+    //   return y;
+    // }
 
-    node_pointer successor(node_pointer x) {
-      if (!(x->right->is_null)) {
-        return minimum(x->right);
-      }
 
-      node_pointer y = x->parent;
-      while (!(y->is_null) && x == y->right) {
-        x = y;
-        y = y->parent;
-      }
-      return y;
-    }
-
-    node_pointer precedent(node_pointer x) {
-      if (!(x->left->is_null)) {
-        return maximum(x->left);
-      }
-
-      node_pointer y = x->parent;
-      while (!(y->is_null) && x == y->left) {
-        x = y;
-        y = y->parent;
-      }
-
-      return y;
-    }
+			node_pointer minimum(node_pointer node)
+			{
+				while (node->left != TNULL) {
+	      			node = node->left;
+	    		}
+	    		return node;
+	  		}
 
 
+	  node_pointer maximum(node_pointer node) {
+	    while (node->right != TNULL) {
+	      node = node->right;
+	    }
+	    return node;
+	  }
+
+	  node_pointer successor(node_pointer x) {
+	    if (x->right != TNULL) {
+	      return minimum(x->right);
+	    }
+
+	    node_pointer y = x->parent;
+	    while (y != NULL && x == y->right) {
+	      x = y;
+	      y = y->parent;
+	    }
+	    return y;
+	  }
+
+	  node_pointer precedent(node_pointer x) {
+	    if (x->left != TNULL) {
+	      return maximum(x->left);
+	    }
+
+	    node_pointer y = x->parent;
+	    while (y != TNULL && x == y->left) {
+	      x = y;
+	      y = y->parent;
+	    }
+
+	    return y;
+	  }
 
   tree_iterator& operator++() {
 	this->current = successor(this->current);
 	return (*this);
   }
+
   tree_iterator operator++(int) {
 	tree_iterator tmp(*this);
 	++(*this);
@@ -128,9 +180,15 @@ class tree_iterator {
   }
 
   tree_iterator& operator--() {
+	 if(current == NULL)
+	 {
+		 current = maximum(this->root);
+		 return(*this);
+	 }
 	current = precedent(current);
 	return (*this);
   }
+
   tree_iterator operator--(int) {
 	tree_iterator tmp(*this);
 	--(*this);
@@ -181,14 +239,14 @@ class rbtree{
 	public:
 		//	Iterators
 		iterator begin() {
-	      return (_size == 0 ? end() : iterator(minimum(this->root)));
+	      return (_size == 0 ? end() : iterator(minimum(this->root), TNULL, this->root));
 	    }
 	    // const_iterator begin() const {
 	    //   return (const_iterator(begin()));
 	    // }
 
 	    iterator end() {
-	      return (_size == 0 ? end() : iterator(maximum(this->root)));
+	      return (iterator(TNULL));
 	    }
 
 	    // const_iterator end() const {

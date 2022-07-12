@@ -1,5 +1,5 @@
 #include "vector.hpp"
-#include "node00.hpp"
+#include "node0.hpp"
 
 int main(void){
 
@@ -8,25 +8,37 @@ int main(void){
 	tree.insert(100);
 	tree.insert(200);
 	tree.insert(300);
-	for(ft::rbtree<int>::iterator start = tree.begin(); start < tree.end(); start = start + 1)
-		std::cout << *start <<std::endl;
-	tree.deleteNode(200);
+
+	std::cout << "The minimum" << std::endl; 
+	std::cout << tree.minimum(tree.getRoot()) -> data << std::endl;
+	ft::Node<int> * ptr = tree.minimum(tree.getRoot());
+	ft::Node<int> * ptr1 = tree.successor(ptr);
+	std::cout << "The successor : " << std::endl;
+	std::cout << ptr1 -> data << std::endl;
+	ptr1 = tree.precedent(ptr1);
+	std::cout << "The precedent : " << std::endl;
+	std::cout << ptr1 -> data << std::endl;
+
+	std::cout << "The maximum" << std::endl; 
+	std::cout << tree.maximum(tree.getRoot()) -> data << std::endl;
+
+	//tree.deleteNode(200);
 
 	ft::rbtree<int> second;
 
 	// second.insert(55);
 	// second.insert(66);
-	std::cout << "Second tree : " << std::endl;
-	second.printHelper(second.getRoot(), "", true);
-	second = tree;
-	std::cout << "Second tree : " << std::endl;
-	second.printHelper(second.getRoot(), "", true);
+	// std::cout << "Second tree : " << std::endl;
+	// second.printHelper(second.getRoot(), "", true);
+	// second = tree;
+	// std::cout << "Second tree : " << std::endl;
+	// second.printHelper(second.getRoot(), "", true);
 
-	std::cout << "First tree : " << std::endl;
-	tree.printHelper(tree.getRoot(), "", true);
+	// std::cout << "First tree : " << std::endl;
+	// tree.printHelper(tree.getRoot(), "", true);
 
-	std::cout << "Second tree : " << std::endl;
-	second.printHelper(second.getRoot(), "", true);
+	// std::cout << "Second tree : " << std::endl;
+	// second.printHelper(second.getRoot(), "", true);
 
 
 

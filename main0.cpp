@@ -1,7 +1,11 @@
 #include "vector.hpp"
 #include "node0.hpp"
+#include <map>
 
 int main(void){
+
+	
+
 
 	ft::rbtree<int> tree;
 
@@ -9,18 +13,31 @@ int main(void){
 	tree.insert(200);
 	tree.insert(300);
 
-	std::cout << "The minimum" << std::endl; 
-	std::cout << tree.minimum(tree.getRoot()) -> data << std::endl;
-	ft::Node<int> * ptr = tree.minimum(tree.getRoot());
-	ft::Node<int> * ptr1 = tree.successor(ptr);
-	std::cout << "The successor : " << std::endl;
-	std::cout << ptr1 -> data << std::endl;
-	ptr1 = tree.precedent(ptr1);
-	std::cout << "The precedent : " << std::endl;
-	std::cout << ptr1 -> data << std::endl;
+	std::cout << "START" << std::endl;
+	tree.printHelper(tree.getRoot(), "", true);
+	std::cout << "SIZE : " << tree.size() << std::endl;
+	tree.clear();
+	std::cout << "AFTER CLEAR" << std::endl;
+	tree.printHelper(tree.getRoot(), "", true);
+	std::cout << "SIZE : " << tree.size() << std::endl;
 
-	std::cout << "The maximum" << std::endl; 
-	std::cout << tree.maximum(tree.getRoot()) -> data << std::endl;
+
+
+	// ft::Node<int> * fin = tree.find(1000, tree.getRoot());
+
+	// std::cout << (fin ? (fin -> data) : 99999) << std::endl;
+	// std::cout << "The minimum" << std::endl; 
+	// std::cout << tree.minimum(tree.getRoot()) -> data << std::endl;
+	// ft::Node<int> * ptr = tree.minimum(tree.getRoot());
+	// ft::Node<int> * ptr1 = tree.successor(ptr);
+	// std::cout << "The successor : " << std::endl;
+	// std::cout << ptr1 -> data << std::endl;
+	// ptr1 = tree.precedent(ptr1);
+	// std::cout << "The precedent : " << std::endl;
+	// std::cout << ptr1 -> data << std::endl;
+
+	// std::cout << "The maximum" << std::endl; 
+	// std::cout << tree.maximum(tree.getRoot()) -> data << std::endl;
 
 	//tree.deleteNode(200);
 

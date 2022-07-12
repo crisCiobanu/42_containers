@@ -62,6 +62,8 @@
 		"ostream": "cpp",
 		"stdexcept": "cpp",
 		"typeinfo": "cpp",
-		"utility": "cpp"
+		"utility": "cpp",
+		"__tree": "cpp",
+		"map": "cpp"
 	}
 }

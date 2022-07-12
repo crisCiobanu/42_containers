@@ -43,55 +43,6 @@ struct Node {
 };
 
 
-// class iterator
-template <typename U>
-class tree_iterator
-{
-
-	public :
-		typedef U                                                   value_type;
-	    typedef value_type*                                         pointer;
-	    typedef value_type&                                         reference;
-	    typedef typename iterator_traits<U*>::difference_type    	difference_type;
-	    typedef typename iterator_traits<U*>::value_type         	node_type;
-	    typedef typename iterator_traits<U*>::pointer            	node_pointer;
-	    typedef typename iterator_traits<U*>::reference          	node_reference;
-	    typedef typename iterator_traits<U*>::iterator_category  	iterator_category;
-	private:
-		node_pointer _current;
-	public:
-		tree_iterator():_current(nullptr){}
-		tree_iterator(node_pointer node):_current(node){}
-		tree_iterator& operator =(const tree_iterator &rhs)
-		{
-			if(this != &rhs)
-			{
-				this->_current = rhs._current;
-			}
-			return(*this);
-		}
-
-		tree_iterator(const tree_iterator &rhs)
-		{
-			*this = rhs;
-			return;
-		}
-
-		~tree_iterator()
-		{
-			return;
-		}
-
-		reference operator*() const
-		{
-			return(_current->data);
-		}
-
-		pointer operator->() const
-		{
-			return(&operator*());
-		}
-};
 
 
 // class rbtree
@@ -124,9 +75,6 @@ class rbtree{
 		size_type 			_size;
 
 	public:
-
-
-
 		//	Iterators
 		// iterator begin()
 		// {
@@ -145,17 +93,69 @@ class rbtree{
 		// {
 
 		// }
+		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), _size(0)
+		{
+			init_tree();
+			this->root = this->TNULL;
+		}
 
-		bool empty()const { return this -> _size == 0; }
+		rbtree(const value_compare &comp, const allocator_type &alloc = allocator_type()) : root(0), con_alloc(alloc), node_alloc(node_allocator()), cmp(comp), _size(0)
+		{
+			init_tree();
+			this->root = this->TNULL;
+		}
 
-		size_type size() const { return this -> _size; }
+		~rbtree() { delete_all_node(this->root); }
 
-		size_type max_size() const{ return con_alloc.max_size(); }
+		void del() { delete_all_node(this->root); }
+
+		rbtree &operator=(rbtree const &rhs)
+		{
+			if (this == &rhs)
+				return (*this);
+			this->con_alloc = rhs.con_alloc;
+			this->node_alloc = rhs.node_alloc;
+			this->cmp = rhs.cmp;
+
+			delete_all_node(this->root);
+			if (rhs._size == 0)
+				this->root = this->TNULL;
+			else
+			{
+				this->root = copy_node(rhs.root);
+				copy_branches(this->root, rhs.root);
+			}
+			this->_size = rhs._size;
+			return (*this);
+		}
+
+		void clear()
+		{
+			delete_all_node(this->root);
+			this->root = this->TNULL;
+			this->_size = 0;
+		}
+
+		void swap(rbtree & rhs){
+			std::swap(this -> root, rhs -> root);
+			std::swap(this -> TNULL, rhs -> TNULL);
+			std::swap(this -> con_alloc, rhs -> con_alloc);
+			std::swap(this -> node_alloc, rhs -> node_alloc);
+			std::swap(this -> cmp, rhs -> cmp);
+			std::swap(this -> _size, rhs -> _size);		
+		}
+
+		bool empty() const { return this->_size == 0; }
+
+		size_type size() const { return this->_size; }
+
+		size_type max_size() const { return con_alloc.max_size(); }
 
 		allocator_type get_allocator() const { return con_alloc; }
 
-		value_compare value_comp() const {return this -> cmp; }
+		value_compare value_comp() const { return this->cmp; }
 
+		
 		// create a node
 		node_pointer createNode(const value_type & data)
 		{
@@ -394,13 +394,13 @@ class rbtree{
       v->parent = u->parent;
     }
 
-	node_pointer find(const_reference value, node_pointer ptr){
+	node_pointer find(node_pointer ptr, const_reference value){
 		node_pointer node = this -> root;
-		node_pointer z;
+		node_pointer z = TNULL;
 		if (ptr == NULL)
 			return NULL;
 		while (node != TNULL){
-			if (!cmp(value, node -> data) && !cpm(node -> data, value))
+			if (!cmp(value, node -> data) && !cmp(node -> data, value))
 				z = node;
 			if (cmp(value, node -> data))
 				node = node -> left;
@@ -409,59 +409,58 @@ class rbtree{
 		}
 		if (z == TNULL)
 			return NULL;
+		return z;
 	}
 
+	int deleteNodeHelper(node_pointer node, const_reference value)
+	{
+		node_pointer x, y, z;
 
-    void deleteNodeHelper(node_pointer node, int key) {
-      node_pointer z = TNULL;
-      node_pointer x, y;
-      while (node != TNULL) {
-        if (node->data == key) {
-          z = node;
-        }
+		z = find(node, value);
+		if (!z)
+			return 0;
 
-        if (node->data <= key) {
-          node = node->right;
-        } else {
-          node = node->left;
-        }
-      }
+		y = z;
+		int y_original_color = y->color;
+		if (z->left == TNULL)
+		{
+			x = z->right;
+			rbTransplant(z, z->right);
+		}
+		else if (z->right == TNULL)
+		{
+			x = z->left;
+			rbTransplant(z, z->left);
+		}
+		else
+		{
+			y = minimum(z->right);
+			y_original_color = y->color;
+			x = y->right;
+			if (y->parent == z)
+			{
+				x->parent = y;
+			}
+			else
+			{
+				rbTransplant(y, y->right);
+				y->right = z->right;
+				y->right->parent = y;
+			}
 
-      if (z == TNULL) {
-        std::cout << "Key not found in the tree" << std::endl;
-        return;
-      }
-
-      y = z;
-      int y_original_color = y->color;
-      if (z->left == TNULL) {
-        x = z->right;
-        rbTransplant(z, z->right);
-      } else if (z->right == TNULL) {
-        x = z->left;
-        rbTransplant(z, z->left);
-      } else {
-        y = minimum(z->right);
-        y_original_color = y->color;
-        x = y->right;
-        if (y->parent == z) {
-          x->parent = y;
-        } else {
-          rbTransplant(y, y->right);
-          y->right = z->right;
-          y->right->parent = y;
-        }
-
-        rbTransplant(z, y);
-        y->left = z->left;
-        y->left->parent = y;
-        y->color = z->color;
-      }
-      delete z;
-      if (y_original_color == 0) {
-        deleteFix(x);
-      }
-    }
+			rbTransplant(z, y);
+			y->left = z->left;
+			y->left->parent = y;
+			y->color = z->color;
+		}
+		delete_node(z);
+		--(this -> _size);
+		if (y_original_color == 0)
+		{
+			deleteFix(x);
+		}
+		return 1;
+	}
 
 	// For balancing the tree after deletion
     void deleteFix(node_pointer x) {
@@ -524,53 +523,18 @@ class rbtree{
       x->color = 0;
     }
 
-	public:
-	void deleteNode(value_type data) {
-	  deleteNodeHelper(this->root, data);
+public:
+	int deleteNode(value_type data)
+	{
+		return deleteNodeHelper(this->root, data);
 	}
 
-		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), _size(0) {
-			init_tree();
-			this -> root = this -> TNULL;
-		}
 
-		rbtree(const value_compare& comp, const allocator_type& alloc = allocator_type()) :
-			root(0), con_alloc(alloc), node_alloc(node_allocator()), cmp(comp), _size(0){
-			init_tree();
-			this -> root = this -> TNULL;
-		}
 
-		 ~rbtree()
-		{
-
-		}
-
-		void del(){
-			delete_all_node(this -> root);
-		}
-
-		rbtree & operator=(rbtree const &rhs)
-		{
-			if(this == &rhs)
-				return(*this);
-			this -> con_alloc = rhs.con_alloc;
-			this -> node_alloc = rhs.node_alloc;
-			this -> cmp = rhs.cmp;
-
-			delete_all_node(this -> root);
-			if (rhs._size == 0)
-				this -> root = this -> TNULL;
-			else {
-				this -> root = copy_node(rhs.root);
-				copy_branches(this -> root , rhs.root);
-			}
-			this -> _size = rhs._size;
-			return (*this);
-		}
-
-		node_pointer getRoot(){
-			return (this -> root);
-		}
+	node_pointer getRoot()
+	{
+		return (this->root);
+	}
 
 	void printHelper(node_pointer root, string indent, bool last) {
     	if (root != TNULL) {

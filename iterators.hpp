@@ -143,4 +143,59 @@ my_iter<Iterator> operator-(const my_iter<Iterator> & iter, typename my_iter<Ite
 template < typename Iterator>
 my_iter<Iterator> operator+(const my_iter<Iterator> & iter, typename my_iter<Iterator>::difference_type n){ return iter + n; }
 
+//=================================================================
+//==============           Tree iterators            ==============	
+//=================================================================	
+
+// template <typename U>
+// class tree_iterator
+// {
+
+// 	public :
+// 		typedef U                                                   value_type;
+// 	    typedef value_type*                                         pointer;
+// 	    typedef value_type&                                         reference;
+// 	    typedef typename iterator_traits<U*>::difference_type    	difference_type;
+// 	    typedef typename iterator_traits<U*>::value_type         	node_type;
+// 	    typedef typename iterator_traits<U*>::pointer            	node_pointer;
+// 	    typedef typename iterator_traits<U*>::reference          	node_reference;
+// 	    typedef typename iterator_traits<U*>::iterator_category  	iterator_category;
+// 	private:
+// 		node_pointer _current;
+// 	public:
+// 		tree_iterator():_current(nullptr){}
+// 		tree_iterator(node_pointer node):_current(node){}
+// 		tree_iterator& operator =(const tree_iterator &rhs)
+// 		{
+// 			if(this != &rhs)
+// 			{
+// 				this->_current = rhs._current;
+// 			}
+// 			return(*this);
+// 		}
+
+// 		tree_iterator(const tree_iterator &rhs)
+// 		{
+// 			*this = rhs;
+// 			return;
+// 		}
+
+// 		~tree_iterator()
+// 		{
+// 			return;
+// 		}
+
+// 		reference operator*() const
+// 		{
+// 			return(_current->data);
+// 		}
+
+// 		pointer operator->() const
+// 		{
+// 			return(&operator*());
+// 		}
+// };
+
+
+
 };

@@ -121,6 +121,7 @@ class tree_iterator {
 	this->current = successor(this->current);
 	return (*this);
   }
+  
   tree_iterator operator++(int) {
 	tree_iterator tmp(*this);
 	++(*this);

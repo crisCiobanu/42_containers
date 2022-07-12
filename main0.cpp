@@ -4,22 +4,35 @@
 
 int main(void){
 
-	
+	std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
+	std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
+	std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
+
+	std::map<int, std::string> mp;
+	// mp.insert(first);
+	// mp.insert(second);
+	// mp.insert(third);
+
+	std::map<int, std::string>::iterator start = mp.begin();
+	--start;
+	//std::cout << "BEGIN : " << start -> first << std::endl; 
+	//--start;
+	//std::cout << "BEGIN : " << start -> first << std::endl; 
 
 
-	ft::rbtree<int> tree;
+	// ft::rbtree<int> tree;
 
-	tree.insert(100);
-	tree.insert(200);
-	tree.insert(300);
+	// tree.insert(100);
+	// tree.insert(200);
+	// tree.insert(300);
 
-	std::cout << "START" << std::endl;
-	tree.printHelper(tree.getRoot(), "", true);
-	std::cout << "SIZE : " << tree.size() << std::endl;
-	tree.clear();
-	std::cout << "AFTER CLEAR" << std::endl;
-	tree.printHelper(tree.getRoot(), "", true);
-	std::cout << "SIZE : " << tree.size() << std::endl;
+	// std::cout << "START" << std::endl;
+	// tree.printHelper(tree.getRoot(), "", true);
+	// std::cout << "SIZE : " << tree.size() << std::endl;
+	// tree.clear();
+	// std::cout << "AFTER CLEAR" << std::endl;
+	// tree.printHelper(tree.getRoot(), "", true);
+	// std::cout << "SIZE : " << tree.size() << std::endl;
 
 
 
@@ -41,7 +54,7 @@ int main(void){
 
 	//tree.deleteNode(200);
 
-	ft::rbtree<int> second;
+	// ft::rbtree<int> second;
 
 	// second.insert(55);
 	// second.insert(66);

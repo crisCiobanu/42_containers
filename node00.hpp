@@ -42,53 +42,110 @@ struct Node {
 
 
 // class iterator
-template <typename U>
-class tree_iterator
-{
+template <typename U, typename V>
+class tree_iterator {
+  public:
+  typedef U                                                           value_type;
+  typedef value_type*                                                 pointer;
+  typedef value_type&                                                 reference;
+  typedef V*                                                          iterator_type;
+  typedef typename iterator_traits<iterator_type>::difference_type    difference_type;
+  typedef typename iterator_traits<iterator_type>::value_type         node_type;
+  typedef typename iterator_traits<iterator_type>::pointer            node_pointer;
+  typedef typename iterator_traits<iterator_type>::reference          node_reference;
+  typedef typename iterator_traits<iterator_type>::iterator_category  iterator_category;
 
-	public :
-		typedef U                                                   value_type;
-	    typedef value_type*                                         pointer;
-	    typedef value_type&                                         reference;
-	    typedef typename iterator_traits<U*>::difference_type    	difference_type;
-	    typedef typename iterator_traits<U*>::value_type         	node_type;
-	    typedef typename iterator_traits<U*>::pointer            	node_pointer;
-	    typedef typename iterator_traits<U*>::reference          	node_reference;
-	    typedef typename iterator_traits<U*>::iterator_category  	iterator_category;
-	private:
-		node_pointer _current;
-	public:
-		tree_iterator():_current(nullptr){}
-		tree_iterator(node_pointer node):_current(node){}
-		tree_iterator& operator =(const tree_iterator &rhs)
-		{
-			if(this != &rhs)
-			{
-				this->_current = rhs._current;
-			}
-			return(*this);
-		}
+  private:
+  node_pointer  current;
 
-		tree_iterator(const tree_iterator &rhs)
-		{
-			*this = rhs;
-			return;
-		}
+  public:
+  tree_iterator() : current(nullptr) {}
+  tree_iterator(node_pointer cur) : current(cur) {}
+  tree_iterator(const tree_iterator& ref) : current(ref.current){}
+  ~tree_iterator() {}
 
-		~tree_iterator()
-		{
-			return;
-		}
+  tree_iterator& operator=(const tree_iterator& ref) {
+	if (this != &ref) {
+	  this->current = ref.current;
+	}
+	return (*this);
+  }
 
-		reference operator*() const
-		{
-			return(_current->data);
-		}
 
-		pointer operator->() const
-		{
-			return(&operator*());
+  reference    operator*()  const { return (current->data); }
+	pointer      operator->() const { return (&operator*()); }
+	node_pointer minimum(node_pointer node)
+	{
+		while (!(node->left->is_null)) {
+			node = node->left;
 		}
+		return node;
+	}
+	node_pointer maximum(node_pointer node) {
+      while (!node->is_null) {
+        node = node->right;
+      }
+      return node;
+    }
+
+    node_pointer successor(node_pointer x) {
+      if (!(x->right->is_null)) {
+        return minimum(x->right);
+      }
+
+      node_pointer y = x->parent;
+      while (!(y->is_null) && x == y->right) {
+        x = y;
+        y = y->parent;
+      }
+      return y;
+    }
+
+    node_pointer precedent(node_pointer x) {
+      if (!(x->left->is_null)) {
+        return maximum(x->left);
+      }
+
+      node_pointer y = x->parent;
+      while (!(y->is_null) && x == y->left) {
+        x = y;
+        y = y->parent;
+      }
+
+      return y;
+    }
+
+
+
+  tree_iterator& operator++() {
+	this->current = successor(this->current);
+	return (*this);
+  }
+  tree_iterator operator++(int) {
+	tree_iterator tmp(*this);
+	++(*this);
+	return (tmp);
+  }
+
+  tree_iterator& operator--() {
+	current = precedent(current);
+	return (*this);
+  }
+  tree_iterator operator--(int) {
+	tree_iterator tmp(*this);
+	--(*this);
+	return (tmp);
+  }
+
+  template <typename T>
+  bool operator==(const tree_iterator<T, node_type>& x) const {
+	return (current == x.current);
+  }
+  template <typename T>
+  bool operator!=(const tree_iterator<T, node_type>& x) const {
+	return !(*this == x);
+  }
+
 };
 
 
@@ -96,6 +153,7 @@ class tree_iterator
 template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
 class rbtree{
 	public:
+
 		typedef	Value 															value_type;
 		typedef Alloc															allocator_type;
 		typedef Compare 														value_compare;
@@ -107,9 +165,10 @@ class rbtree{
 		typedef typename Alloc::const_pointer									const_pointer;
 		typedef typename Alloc::template rebind<Node<Value> >::other			node_allocator;
 		typedef typename node_allocator::pointer								node_pointer;
+		typedef Node<value_type>                                        		node_type;
 
-	 	typedef ft::my_iter<value_type>								iterator;
-	 	typedef ft::my_iter<const value_type>						const_iterator;
+		typedef tree_iterator<value_type, node_type>                        iterator;
+		typedef tree_iterator<const value_type, node_type>                 const_iterator;
 		typedef std::reverse_iterator<iterator>						reverse_iterator;
 		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
 
@@ -169,19 +228,33 @@ class rbtree{
     }
     return node;
   }
-
   node_pointer successor(node_pointer x) {
     if (x->right != TNULL) {
-      return minimum(x->right);
+  	return minimum(x->right);
     }
 
     node_pointer y = x->parent;
     while (y != TNULL && x == y->right) {
-      x = y;
-      y = y->parent;
+  	x = y;
+  	y = y->parent;
     }
     return y;
   }
+
+  node_pointer precedent(node_pointer x) {
+    if (x->left != TNULL) {
+  	return maximum(x->left);
+    }
+
+    node_pointer y = x->parent;
+    while (y != TNULL && x == y->left) {
+  	x = y;
+  	y = y->parent;
+    }
+
+    return y;
+  }
+
 
   node_pointer ptrueecessor(node_pointer x) {
     if (x->left != TNULL) {
@@ -502,25 +575,21 @@ public:
 		std::swap(this->size, other.size);
 	}
 	//	Iterators
-	iterator begin()
-	{
-		return(iterator(size == 0 ? header : iterator(minimum(root))));
-	}
+	iterator begin() {
+      return (_size == 0 ? end() : iterator(minimum(this->root)));
+    }
+    // const_iterator begin() const {
+    //   return (const_iterator(begin()));
+    // }
 
-	const_iterator begin() const
-	{
-		return(const_iterator(size == 0 ? header : const_iterator(minimum(root))));
-	}
+    iterator end() {
+      return (_size == 0 ? end() : iterator(maximum(this->root)));
+    }
 
-	iterator end()
-	{
-		return(iterator(header));
-	}
+    // const_iterator end() const {
+    //   return (const_iterator());
+    // }
 
-	const_iterator end() const
-	{
-		return(const_iterator(end()));
-	}
 	reverse_iterator rbegin()
 	{
 	return reverse_iterator(end());

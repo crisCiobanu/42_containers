@@ -1,24 +1,24 @@
 #include "vector.hpp"
-#include "node0.hpp"
+#include "map.hpp"
 
 int main(void){
 
-	ft::rbtree<int> tree;
-
-
-	tree.insert(100);
-	tree.insert(200);
-	tree.insert(300);
-	ft::rbtree<int>::iterator iter = tree.begin();
-
-	// for(iter = tree.begin(); iter != tree.end(); iter++)
-	// 	std::cout << *iter << std::endl;
+	 // ft::mymap<int,int> map;
+	//
+	//
+	// tree.insert(100);
+	// tree.insert(200);
+	// tree.insert(300);
+	// ft::rbtree<int>::iterator iter = tree.begin();
+	//
+	// // for(iter = tree.begin(); iter != tree.end(); iter++)
+	// // 	std::cout << *iter << std::endl;
+	// // --iter;
+	// // ++iter;
+	// // ++iter;
 	// --iter;
 	// ++iter;
-	// ++iter;
-	--iter;
-	++iter;
-	std::cout << *iter << std::endl;
+	// std::cout << *iter << std::endl;
 
 
 

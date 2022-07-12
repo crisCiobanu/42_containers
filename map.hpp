@@ -1,7 +1,9 @@
 #ifndef MAP_HPP
 # define MAP_HPP
-# include "pair.hpp"
-amespace ft
+# include "utils.hpp"
+# include "node0.hpp"
+
+namespace ft
 {
     template < class Key,                                     // map::key_type
            class T,                                       // map::mapped_type
@@ -21,12 +23,16 @@ amespace ft
             typedef typename allocator_type::const_reference        const_reference; //const t&
             typedef typename allocator_type::pointer                pointer; // T*
             typedef typename allocator_type::const_pointer          const_pointer; // const T*
-            typedef typename rbtree<value_type, key_type, value_compare, allocator_type>::iterator           iterator;
-            typedef typename rbtree<value_type, key_type, value_compare, allocator_type>::const_iterator  const_iterator;
+            typedef typename rbtree<value_type, value_compare, allocator_type>::iterator           iterator;
+            typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator  const_iterator;
             typedef ft::reverse_iterator<iterator>                  reverse_iterator;
             typedef ft::reverse_iterator<const_iterator>            const_reverse_iterator;
             typedef iterator_traits<iterator>::difference_type      difference_type;
             typedef size_t                                          size_type;
+            typedef rbtree<value_type, value_compare, allocator_type> tree_type;
+
+
+
             template <class Key, class T, class Compare, class Alloc>
             class map<Key,T,Compare,Alloc>::value_compare
             {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
@@ -43,100 +49,123 @@ amespace ft
                 return comp(x.first, y.first);
               }
           };
-        private:
 
-        
+        private:
+            rbtree<value_type, value_compare, allocator_type> tree;
+            key_compare cmp;
+
         public :
             template <class InputIterator>
             map (InputIterator first, InputIterator last,
                 const key_compare& comp = key_compare(),
                 const allocator_type& alloc = allocator_type())
-            {
+                : tree(tree_type(first, last, value_compare(comp), alloc)), cmp(comp) {}
 
+            explicit map (const key_compare& comp = key_compare(),
+            const allocator_type& alloc = allocator_type()) : cmp(comp), tree(tree_type(value_compare(comp), alloc)) {}
+
+            map& operator=(const map& rhs)
+            {
+                if(this!= &rhs)
+                {
+                    tree = rhs.tree;
+                    cmp = cmp.tree;
+                }
+                return(*this);
             }
 
             map (const map& x)
             {
-
+                *this = x;
+                return ;
             }
-            explicit map (const key_compare& comp = key_compare(),
-            const allocator_type& alloc = allocator_type())
-            {
 
-            }
-            ~map()
-            {
+            ~map() {}
 
-            }
             iterator begin()
             {
-
+                return(_tree.begin());
             }
+
             const_iterator begin() const
             {
-
+                return(_tree.begin());
             }
             iterator end()
             {
-
+                return (_tree.end());
             }
             const_iterator end() const
             {
-
+                return (_tree.end());
             }
+
             reverse_iterator rbegin()
             {
 
             }
+
             const_reverse_iterator rbegin() const
             {
 
             }
+
             reverse_iterator rend()
             {
 
             }
+
             const_reverse_iterator rend() const
             {
 
             }
+
             bool empty() const
             {
-
+                return(tree.empty());
             }
+
             size_type size() const
             {
-
+                return(tree.size());
             }
+
             size_type max_size() const
             {
-
+                return(tree.max_size());
             }
+
             mapped_type& operator[] (const key_type& k)
             {
 
             }
+
             template <class InputIterator>
             void insert (InputIterator first, InputIterator last)
             {
 
             }
+
             iterator insert (iterator position, const value_type& val)
             {
 
             }
+
             pair<iterator,bool> insert (const value_type& val)
             {
 
             }
+
             void erase (iterator position)
             {
 
             }
+
             size_type erase (const key_type& k)
             {
-
+                 return (_tree.deleteNode(k));
             }
+
             void erase (iterator first, iterator last)
             {
 
@@ -197,9 +226,6 @@ amespace ft
             {
 
             }
-
-
-
 
     };
 }

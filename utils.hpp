@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 16:00:19 by jperras          ###   ########.fr       */
+/*   Updated: 2022/07/13 16:03:22 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,6 @@ struct Node {
 	}
  ~Node(){ } ;
 };
-
-//==============     enable_if        ==============
-template <bool Cond, class T = void> struct enable_if{};
-template<class T> struct enable_if<true, T> { typedef T type; };
-
 
 //==============     PAIR         ==============
 
@@ -162,7 +157,7 @@ bool equal (InpIter1 first1, InpIter1 last1, InpIter2 first2, BinaryPredicate pr
 	return true;
 }
 
-//==============     EQUAL        ==============
+//==============    Enable_if       ==============
 
 template<bool Cond, class T = void> struct enable_if {};
 template<class T> struct enable_if<true, T> { typedef T type; };

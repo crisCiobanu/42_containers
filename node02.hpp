@@ -1,214 +1,15 @@
 #pragma once
 
 using namespace std;
+#include "iterators.hpp"
 #include "utils.hpp"
 
 namespace ft{
 
-// struct Node
-template <class T/*, class Alloc = std::allocator<T> */>
-struct Node {
-	typedef T value_type;
-	T     data;
-  	Node *parent;
-	Node *left;
-  	Node *right;
-  	bool color;
-	bool is_null;
+//=================================================================
+//==============           Red Black Tree            ==============
+//=================================================================
 
-
-	Node():data(value_type()), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
-	Node(const Node &rhs)
-	{
-		*this = rhs;
-		return;
-	}
-	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){
-		this -> data = rhs;
-	};
-
-	Node& operator=(const Node &rhs)
-	{
-		if(this != &rhs)
-		{
-			this->data = rhs.data;
-			this->parent = rhs.parent;
-			this->left = rhs.left;
-			this->right = rhs.right;
-			this->color = rhs.color;
-			this->is_null = rhs.is_null;
-		}
-		return(*this);
-	}
- ~Node(){ } ;
-};
-
-template <typename U, typename V>
-class tree_iterator {
-  public:
-  typedef U                                                           value_type;
-  typedef value_type*                                                 pointer;
-  typedef value_type&                                                 reference;
-  typedef V*                                                          iterator_type;
-  typedef typename iterator_traits<iterator_type>::difference_type    difference_type;
-  typedef typename iterator_traits<iterator_type>::value_type         node_type;
-  typedef typename iterator_traits<iterator_type>::pointer            node_pointer;
-  typedef typename iterator_traits<iterator_type>::reference          node_reference;
-  typedef typename iterator_traits<iterator_type>::iterator_category  iterator_category;
-
-  private:
-  node_pointer  	current;
-  node_pointer 		TNULL;
-  node_pointer 		root;
-
-  public:
-  tree_iterator() : current(nullptr),TNULL(nullptr) {}
-  tree_iterator(node_pointer cur, node_pointer tnull) : current(cur), TNULL(tnull) {}
-  tree_iterator(node_pointer cur, node_pointer tnull,node_pointer rout) : current(cur), TNULL(tnull), root(rout) {}
-  tree_iterator(node_pointer cur) : current(nullptr), TNULL(cur) {}
-  tree_iterator(const tree_iterator& ref) : current(ref.current),TNULL(ref.TNULL){}
-  ~tree_iterator() {}
-
-  tree_iterator& operator=(const tree_iterator& ref) {
-	if (this != &ref) {
-	  this->current = ref.current;
-	}
-	return (*this);
-  }
-
-
-  reference    operator*()  const
-  {
-	  if(current == NULL)
-		 return (TNULL->data);
-	  return (current->data);
-  }
-	pointer      operator->() const { return (&operator*()); }
-	// node_pointer minimum(node_pointer node)
-	// {
-	// 	while (!(node->left->is_null)) {
-	// 		node = node->left;
-	// 	}
-	// 	return node;
-	// }
-	// node_pointer maximum(node_pointer node) {
-    //   while (!node->is_null) {
-    //     node = node->right;
-    //   }
-    //   return node;
-    // }
-	//
-    // node_pointer successor(node_pointer x) {
-    //   if (!(x->right->is_null)) {
-    //     return minimum(x->right);
-    //   }
-	//
-    //   node_pointer y = x->parent;
-    //   while (!(y->is_null) && x == y->right) {
-    //     x = y;
-    //     y = y->parent;
-    //   }
-    //   return y;
-    // }
-	//
-    // node_pointer precedent(node_pointer x) {
-    //   if (!(x->left->is_null)) {
-    //     return maximum(x->left);
-    //   }
-	//
-    //   node_pointer y = x->parent;
-    //   while (!(y->is_null) && x == y->left) {
-    //     x = y;
-    //     y = y->parent;
-    //   }
-	//
-    //   return y;
-    // }
-
-
-			node_pointer minimum(node_pointer node)
-			{
-				while (node->left != TNULL) {
-	      			node = node->left;
-	    		}
-	    		return node;
-	  		}
-
-
-	  node_pointer maximum(node_pointer node) {
-	    while (node->right != TNULL) {
-	      node = node->right;
-	    }
-	    return node;
-	  }
-
-	  node_pointer successor(node_pointer x) {
-	    if (x->right != TNULL) {
-	      return minimum(x->right);
-	    }
-
-	    node_pointer y = x->parent;
-	    while (y != NULL && x == y->right) {
-	      x = y;
-	      y = y->parent;
-	    }
-	    return y;
-	  }
-
-	  node_pointer precedent(node_pointer x) {
-	    if (x->left != TNULL) {
-	      return maximum(x->left);
-	    }
-
-	    node_pointer y = x->parent;
-	    while (y != TNULL && x == y->left) {
-	      x = y;
-	      y = y->parent;
-	    }
-
-	    return y;
-	  }
-
-  tree_iterator& operator++() {
-	this->current = successor(this->current);
-	return (*this);
-  }
-
-  tree_iterator operator++(int) {
-	tree_iterator tmp(*this);
-	++(*this);
-	return (tmp);
-  }
-
-  tree_iterator& operator--() {
-	 if(current == NULL)
-	 {
-		 current = maximum(this->root);
-		 return(*this);
-	 }
-	current = precedent(current);
-	return (*this);
-  }
-
-  tree_iterator operator--(int) {
-	tree_iterator tmp(*this);
-	--(*this);
-	return (tmp);
-  }
-
-  template <typename T>
-  bool operator==(const tree_iterator<T, node_type>& x) const {
-	return (current == x.current);
-  }
-  template <typename T>
-  bool operator!=(const tree_iterator<T, node_type>& x) const {
-	return !(*this == x);
-  }
-
-};
-
-
-// class rbtree
 template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
 class rbtree{
 	public:
@@ -225,10 +26,10 @@ class rbtree{
 		typedef typename node_allocator::pointer								node_pointer;
 			typedef Node<value_type>                                        		node_type;
 
-		typedef tree_iterator<value_type, node_type>                        iterator;
-		typedef tree_iterator<const value_type, node_type>                 const_iterator;
-		typedef std::reverse_iterator<iterator>						reverse_iterator;
-		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
+		typedef tree_iterator<value_type>                        iterator;
+		typedef tree_iterator<const value_type>                 const_iterator;
+		typedef ft::reverse_iterator<iterator>						reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 	private:
 		node_pointer 		root;
   		node_pointer 		TNULL;
@@ -238,41 +39,9 @@ class rbtree{
 		size_type 			_size;
 
 	public:
-		//	Iterators
-		iterator begin() {
-	      return (_size == 0 ? end() : iterator(minimum(this->root), TNULL, this->root));
-	    }
-	    // const_iterator begin() const {
-	    //   return (const_iterator(begin()));
-	    // }
 
-	    iterator end() {
-	      return (iterator(TNULL));
-	    }
+		//==============     CONSTRUCTORS         ==============
 
-	    // const_iterator end() const {
-	    //   return (const_iterator());
-	    // }
-
-		reverse_iterator rbegin()
-		{
-		return reverse_iterator(end());
-		}
-
-		const_reverse_iterator rbegin() const
-		{
-			return const_reverse_iterator(end());
-		}
-
-		reverse_iterator rend()
-		{
-			return reverse_iterator(begin());
-		}
-
-		const_reverse_iterator rend() const
-		{
-			return const_reverse_iterator(begin());
-		}
 		rbtree() : root(0), con_alloc(allocator_type()), node_alloc(node_allocator()), cmp(value_compare()), _size(0)
 		{
 			init_tree();
@@ -284,19 +53,8 @@ class rbtree{
 			init_tree();
 			this->root = this->TNULL;
 		}
-		template<class InputIt>
-		rbtree(typename enable_if< !ft::is_integral<InputIt>::value, InputIt >::type first, InputIt last,
-		   const value_compare& comp, const allocator_type& alloc = allocator_type()):
-		    con_alloc(alloc),node_alloc(node_allocator()) ,cmp(comp), _size(0)
-			{
-		init_tree();
-		for ( ; first != last; ++first)
-			insert(*first);
-	}
 
 		~rbtree() { delete_all_node(this->root); }
-
-		void del() { delete_all_node(this->root); }
 
 		rbtree &operator=(rbtree const &rhs)
 		{
@@ -318,6 +76,53 @@ class rbtree{
 			return (*this);
 		}
 
+		//==============     ITERATORS         ==============
+
+		iterator begin() {
+	      return (_size == 0 ? end() : iterator(minimum(this->root), TNULL, this->root));
+	    }
+	    const_iterator begin() const {
+	      return (_size == 0 ? end() : const_iterator(minimum(this->root), TNULL, this->root));
+	    }
+
+	    iterator end() {
+	      return (iterator(TNULL, TNULL, root));
+	    }
+
+	    const_iterator end() const {
+	      return (const_iterator(TNULL, TNULL, root));
+	    }
+
+		reverse_iterator rbegin()
+		{
+		return reverse_iterator(end());
+		}
+
+		const_reverse_iterator rbegin() const
+		{
+			return const_reverse_iterator(end());
+		}
+
+		reverse_iterator rend()
+		{
+			return reverse_iterator(begin());
+		}
+
+		const_reverse_iterator rend() const
+		{
+			return const_reverse_iterator(begin());
+		}
+
+		//==============     CAPACITY        ==============
+
+		bool empty() const { return this->_size == 0; }
+
+		size_type size() const { return this->_size; }
+
+		size_type max_size() const { return con_alloc.max_size(); }
+
+		//==============     FUNCTIONS        ==============
+
 		void clear()
 		{
 			delete_all_node(this->root);
@@ -334,15 +139,11 @@ class rbtree{
 			std::swap(this -> _size, rhs -> _size);
 		}
 
-		bool empty() const { return this->_size == 0; }
-
-		size_type size() const { return this->_size; }
-
-		size_type max_size() const { return con_alloc.max_size(); }
-
 		allocator_type get_allocator() const { return con_alloc; }
 
 		value_compare value_comp() const { return this->cmp; }
+
+
 
 
 		// create a node
@@ -357,14 +158,11 @@ class rbtree{
 		}
 
 
-
-		node_pointer minimum(node_pointer node)
-		{
-			while (node->left != TNULL) {
-      			node = node->left;
-    		}
-    		return node;
-  		}
+		node_pointer minimum(node_pointer node)	{
+		while (node->left != TNULL)
+    			node = node->left;
+		return node;
+		}
 
 
   node_pointer maximum(node_pointer node) {
@@ -521,6 +319,28 @@ class rbtree{
 
     insertFix(node);
   }
+
+	iterator find(const_reference value){
+		return (search(value) ? iterator(search(value), this -> TNULL, this -> root) : this -> end());
+	}
+
+  	node_pointer search(const_reference value){
+		node_pointer node = this -> root;
+		node_pointer z = TNULL;
+
+		while (node != TNULL){
+			if (!cmp(value, node -> data) && !cmp(node -> data, value))
+				z = node;
+			if (cmp(value, node -> data))
+				node = node -> left;
+			else
+				node = node -> right;
+		}
+		if (z == TNULL)
+			return NULL;
+		return z;
+	}
+
 	private:
 	void init_tree() {
 		TNULL = node_alloc.allocate(1);
@@ -583,23 +403,7 @@ class rbtree{
       v->parent = u->parent;
     }
 
-	node_pointer find(node_pointer ptr, const_reference value){
-		node_pointer node = this -> root;
-		node_pointer z = TNULL;
-		if (ptr == NULL)
-			return NULL;
-		while (node != TNULL){
-			if (!cmp(value, node -> data) && !cmp(node -> data, value))
-				z = node;
-			if (cmp(value, node -> data))
-				node = node -> left;
-			else
-				node = node -> right;
-		}
-		if (z == TNULL)
-			return NULL;
-		return z;
-	}
+
 
 	int deleteNodeHelper(node_pointer node, const_reference value)
 	{

@@ -5,6 +5,8 @@
 int main(void){
 
 	 ft::map< int,int > test;
+	 ft::map< int,int >::iterator iter = test.begin();
+	 // test.insert ( std::pair<int,int>(10,100),10 );
 	//
 	// ft::rbtree< ft::pair<int,int> > tree;
 	// tree.insert(make_pair(100,200));

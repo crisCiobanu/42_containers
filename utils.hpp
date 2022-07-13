@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 16:03:22 by jperras          ###   ########.fr       */
+/*   Updated: 2022/07/13 16:31:49 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,12 +66,14 @@ struct pair{
 
 	//==============     Constructors          ==============
 
-	pair() : first(), second() { }
+	pair() : first(first_type()), second(second_type()) { }
 
 	pair(const T1& a, const T2& b) : first(a), second(b) { }
 
 	template <class U1, class U2>
 	pair(const pair<U1, U2> &rhs) : first(rhs.first), second(rhs.second) { }
+
+	pair(const pair &rhs) : first(rhs.first), second(rhs.second) { }
 
 	pair & operator=(const pair &rhs){
 		this -> first = rhs.first;

@@ -207,12 +207,12 @@ namespace ft
 
             iterator insert (iterator position, const value_type& val)
             {
-
+                return tree.insert(position, val);
             }
 
-            pair<iterator,bool> insert (const value_type& val)
+            ft::pair<iterator,bool> insert (const value_type& val)
             {
-
+                return tree.insert(val);
             }
 
             void erase (iterator position)

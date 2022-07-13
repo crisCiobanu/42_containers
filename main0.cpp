@@ -1,38 +1,43 @@
 #include "vector.hpp"
 #include "node0.hpp"
+#include "iterators.hpp"
 #include <map>
 
 int main(void){
 
-	std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
-	std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
-	std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
+	// std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
+	// std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
+	// std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
 
-	std::map<int, std::string> mp;
+	// std::map<int, std::string> mp;
 	// mp.insert(first);
 	// mp.insert(second);
 	// mp.insert(third);
 
-	std::map<int, std::string>::iterator start = mp.begin();
-	--start;
-	//std::cout << "BEGIN : " << start -> first << std::endl; 
-	//--start;
-	//std::cout << "BEGIN : " << start -> first << std::endl; 
+	// std::map<int, std::string>::const_iterator start = mp.begin();
+
+	// std::cout << "BEGIN : " << start -> first << std::endl; 
+	// ++start;
+	// std::cout << "BEGIN : " << start -> first << std::endl; 
 
 
-	// ft::rbtree<int> tree;
+	ft::rbtree<int> tree;
 
-	// tree.insert(100);
-	// tree.insert(200);
-	// tree.insert(300);
+	tree.insert(100);
+	tree.insert(200);
+	tree.insert(300);
 
-	// std::cout << "START" << std::endl;
-	// tree.printHelper(tree.getRoot(), "", true);
-	// std::cout << "SIZE : " << tree.size() << std::endl;
-	// tree.clear();
-	// std::cout << "AFTER CLEAR" << std::endl;
-	// tree.printHelper(tree.getRoot(), "", true);
-	// std::cout << "SIZE : " << tree.size() << std::endl;
+	std::cout << "START" << std::endl;
+	tree.printHelper(tree.getRoot(), "", true);
+	std::cout << "SIZE : " << tree.size() << std::endl;
+
+	ft::rbtree<int>::iterator it = tree.begin();
+	ft::rbtree<int>::const_iterator end = tree.end();
+	++it;
+	++it;
+	++it;
+	std::cout << (it==end ? "TRUE" : "FALSE") << std::endl;
+
 
 
 

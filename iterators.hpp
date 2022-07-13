@@ -12,8 +12,14 @@
 
 #pragma once
 #include <iterator>
+#include "utils.hpp"
 
 namespace ft{
+
+//=================================================================
+//==============           Iterator traits           ==============	
+//=================================================================
+
 
 template <class Iter>
 class iterator_traits {
@@ -49,6 +55,11 @@ class iterator_traits<const T*> {
 template<class T> struct remove_const { typedef T type; };
 
 template<class T> struct remove_const <const T> { typedef T type; };
+
+//=================================================================
+//==============           Vector iterator           ==============	
+//=================================================================
+
 
 template <class T>
 class my_iter{
@@ -143,58 +154,160 @@ my_iter<Iterator> operator-(const my_iter<Iterator> & iter, typename my_iter<Ite
 template < typename Iterator>
 my_iter<Iterator> operator+(const my_iter<Iterator> & iter, typename my_iter<Iterator>::difference_type n){ return iter + n; }
 
+
+
 //=================================================================
 //==============           Tree iterators            ==============	
-//=================================================================	
+//=================================================================
 
-// template <typename U>
-// class tree_iterator
-// {
+template <typename U>
+class tree_iterator
+{
+public:
+	typedef typename iterator_traits<U *>::difference_type		difference_type;
+	typedef typename iterator_traits<U *>::value_type			value_type;
+	typedef typename iterator_traits<U *>::pointer				pointer;
+	typedef typename iterator_traits<U *>::reference			reference;
+	typedef Node<typename ft::remove_const<value_type>::type>*	node_pointer;
 
-// 	public :
-// 		typedef U                                                   value_type;
-// 	    typedef value_type*                                         pointer;
-// 	    typedef value_type&                                         reference;
-// 	    typedef typename iterator_traits<U*>::difference_type    	difference_type;
-// 	    typedef typename iterator_traits<U*>::value_type         	node_type;
-// 	    typedef typename iterator_traits<U*>::pointer            	node_pointer;
-// 	    typedef typename iterator_traits<U*>::reference          	node_reference;
-// 	    typedef typename iterator_traits<U*>::iterator_category  	iterator_category;
-// 	private:
-// 		node_pointer _current;
-// 	public:
-// 		tree_iterator():_current(nullptr){}
-// 		tree_iterator(node_pointer node):_current(node){}
-// 		tree_iterator& operator =(const tree_iterator &rhs)
-// 		{
-// 			if(this != &rhs)
-// 			{
-// 				this->_current = rhs._current;
-// 			}
-// 			return(*this);
-// 		}
+	typedef typename std::bidirectional_iterator_tag			iterator_category;
 
-// 		tree_iterator(const tree_iterator &rhs)
-// 		{
-// 			*this = rhs;
-// 			return;
-// 		}
+private:
 
-// 		~tree_iterator()
-// 		{
-// 			return;
-// 		}
+	node_pointer current;
+	node_pointer TNULL;
+	node_pointer root;
 
-// 		reference operator*() const
-// 		{
-// 			return(_current->data);
-// 		}
+	node_pointer minimum(node_pointer node)
+	{
+		while (node->left != TNULL)
+			node = node->left;
+		return node;
+	}
 
-// 		pointer operator->() const
-// 		{
-// 			return(&operator*());
-// 		}
-// };
+	node_pointer maximum(node_pointer node)
+	{
+		while (node->right != TNULL)
+			node = node->right;
+		return node;
+	}
+
+	node_pointer successor(node_pointer x)
+	{
+		if (x->right != TNULL)
+			return minimum(x->right);
+
+		node_pointer y = x->parent;
+		while (y != NULL && x == y->right)
+		{
+			x = y;
+			y = y->parent;
+		}
+		return y;
+	}
+
+	node_pointer precedent(node_pointer x)
+	{
+		if (x->left != TNULL)
+			return maximum(x->left);
+
+		node_pointer y = x->parent;
+		while (y != TNULL && x == y->left)
+		{
+			x = y;
+			y = y->parent;
+		}
+
+		return y;
+	}
+
+public:
+
+	//==============     Constructors          ==============
+
+	tree_iterator() : current(nullptr), TNULL(nullptr) {}
+	tree_iterator(node_pointer cur, node_pointer tnull) : current(cur), TNULL(tnull) {}
+	tree_iterator(node_pointer cur, node_pointer tnull, node_pointer rout) : current(cur), TNULL(tnull), root(rout) {}
+	tree_iterator(node_pointer cur) : current(nullptr), TNULL(cur) {}
+
+	tree_iterator(const tree_iterator<typename ft::remove_const<value_type>::type> &ref) {
+		*this = ref;
+	}
+	
+	
+	~tree_iterator() {}
+
+	tree_iterator &operator=(const tree_iterator<typename remove_const<value_type>::type> &ref)
+	{
+			this->current = ref.getCurrent();
+			this->root = ref.getRoot();
+			this->TNULL = ref.getTNULL();
+		return *this;
+	}
+
+	//==============     Pointer like operations          ==============
+
+	reference operator*() const
+	{
+		if (current == NULL)
+			return (TNULL->data);
+		return (current->data);
+	}
+	pointer operator->() const { return (&operator*()); }
+
+	//==============     Increment / Decrement           ==============	
+
+	tree_iterator &operator++()
+	{
+		this->current = successor(this->current);
+		return (*this);
+	}
+
+	tree_iterator operator++(int)
+	{
+		tree_iterator tmp(*this);
+		++(*this);
+		return (tmp);
+	}
+
+	tree_iterator &operator--()
+	{
+		if (current == NULL)
+		{
+			current = maximum(this->root);
+			return (*this);
+		}
+		current = precedent(current);
+		return (*this);
+	}
+
+	tree_iterator operator--(int)
+	{
+		tree_iterator tmp(*this);
+		--(*this);
+		return (tmp);
+	}
+
+	//==============     Getters           ==============		
+
+	node_pointer getRoot() const { return this -> root; }
+	node_pointer getCurrent() const { return this -> current; }
+	node_pointer getTNULL() const { return this -> TNULL; }
+
+};
+//==============     Comparison operations           ==============	
+	
+template < typename IteratorL, typename IteratorR>
+bool operator==(const tree_iterator<IteratorL> & lhs, const tree_iterator<IteratorR> & rhs){ return &(*lhs) == &(*rhs); }
+
+template < typename IteratorL, typename IteratorR>
+bool operator!=(const tree_iterator<IteratorL> & lhs, const tree_iterator<IteratorR> & rhs){ return &(*lhs) != &(*rhs); }
+
+
+//=================================================================
+//==============           Reverse iterator          ==============	
+//=================================================================
+
 
 
 

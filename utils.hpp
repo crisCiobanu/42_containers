@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/12 15:47:12 by jperras          ###   ########.fr       */
+/*   Updated: 2022/07/13 09:17:06 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,45 @@
 #include <iostream>
 
 namespace ft{
+
+// struct Node
+template <class T, class Alloc = std::allocator<T> >
+struct Node {
+	typedef T value_type;
+	T     data;
+  	Node *parent;
+	Node *left;
+  	Node *right;
+  	bool color;
+	bool is_null;
+
+
+	Node():data(0), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
+	Node(const Node &rhs)
+	{
+		*this = rhs;
+		return;
+	}
+	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){
+		this -> data = rhs;
+	};
+
+	Node& operator=(const Node &rhs)
+	{
+		if(this != &rhs)
+		{
+			this->data = rhs.data;
+			this->parent = rhs.parent;
+			this->left = rhs.left;
+			this->right = rhs.right;
+			this->color = rhs.color;
+			this->is_null = rhs.is_null;
+		}
+		return(*this);
+	}
+ ~Node(){ } ;
+};
+
 
 //==============     PAIR         ==============
 

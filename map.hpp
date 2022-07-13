@@ -8,7 +8,7 @@ namespace ft
     template < class Key,                                     // map::key_type
            class T,                                       // map::mapped_type
            class Compare = std::less<Key>,                     // map::key_compare
-           class Alloc = std::allocator<pair<const Key,T> >    // map::allocator_type
+           class Alloc = std::allocator<pair<const Key,T> > >   // map::allocator_type
     class map
     {
         public:
@@ -23,36 +23,63 @@ namespace ft
             typedef typename allocator_type::const_reference        const_reference; //const t&
             typedef typename allocator_type::pointer                pointer; // T*
             typedef typename allocator_type::const_pointer          const_pointer; // const T*
-            typedef typename rbtree<value_type, value_compare, allocator_type>::iterator           iterator;
-            typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator  const_iterator;
-            typedef ft::reverse_iterator<iterator>                  reverse_iterator;
-            typedef ft::reverse_iterator<const_iterator>            const_reverse_iterator;
-            typedef iterator_traits<iterator>::difference_type      difference_type;
+
+            // typedef ft::reverse_iterator<iterator>                  reverse_iterator;
+            // typedef ft::reverse_iterator<const_iterator>            const_reverse_iterator;
+            // typedef iterator_traits<iterator>::difference_type      difference_type;
             typedef size_t                                          size_type;
-            typedef rbtree<value_type, value_compare, allocator_type> tree_type;
 
 
 
-            template <class Key, class T, class Compare, class Alloc>
-            class map<Key,T,Compare,Alloc>::value_compare
-            {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
-              friend class map;
+
+          //   template <class Key, class T, class Compare, class Alloc>
+          //   class map<Key,T,Compare,Alloc>::value_compare
+          //   {   // in C++98, it is required to inherit binary_function<value_type,value_type,bool>
+          //     friend class map;
+          //   protected:
+          //     Compare comp;
+          //     value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+          //   public:
+          //     typedef bool result_type;
+          //     typedef value_type first_argument_type;
+          //     typedef value_type second_argument_type;
+          //     bool operator() (const value_type& x, const value_type& y) const
+          //     {
+          //       return comp(x.first, y.first);
+          //     }
+          // };
+          class value_compare : public std::binary_function<value_type, value_type, bool> {
             protected:
-              Compare comp;
-              value_compare (Compare c) : comp(c) {}  // constructed with map's comparison object
+            key_compare comp;
+
             public:
-              typedef bool result_type;
-              typedef value_type first_argument_type;
-              typedef value_type second_argument_type;
-              bool operator() (const value_type& x, const value_type& y) const
-              {
-                return comp(x.first, y.first);
-              }
+            value_compare(key_compare c) : comp(c) {}
+            ~value_compare() {}
+
+            bool operator()(const value_type& x, const value_type& y) const {
+              return (comp(x.first, y.first));
+            }
+            bool operator()(const value_type& x, const key_type& y) const {
+              return (comp(x.first, y));
+            }
+            bool operator()(const key_type& x, const value_type& y) const {
+              return (comp(x, y.first));
+            }
           };
+
+
+
+          typedef typename rbtree<value_type, value_compare, allocator_type>::iterator           iterator;
+          typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator  const_iterator;
+          typedef rbtree<value_type, value_compare, allocator_type> tree_type;
+
 
         private:
             rbtree<value_type, value_compare, allocator_type> tree;
             key_compare cmp;
+
+
+
 
         public :
             template <class InputIterator>
@@ -84,41 +111,41 @@ namespace ft
 
             iterator begin()
             {
-                return(_tree.begin());
+                return(tree.begin());
             }
 
             const_iterator begin() const
             {
-                return(_tree.begin());
+                return(tree.begin());
             }
             iterator end()
             {
-                return (_tree.end());
+                return (tree.end());
             }
-            const_iterator end() const
-            {
-                return (_tree.end());
-            }
+            // const_iterator end() const
+            // {
+            //     return (_tree.end());
+            // }
+            //
+            // reverse_iterator rbegin()
+            // {
+            //
+            // }
 
-            reverse_iterator rbegin()
-            {
-
-            }
-
-            const_reverse_iterator rbegin() const
-            {
-
-            }
-
-            reverse_iterator rend()
-            {
-
-            }
-
-            const_reverse_iterator rend() const
-            {
-
-            }
+            // const_reverse_iterator rbegin() const
+            // {
+            //
+            // }
+            //
+            // reverse_iterator rend()
+            // {
+            //
+            // }
+            //
+            // const_reverse_iterator rend() const
+            // {
+            //
+            // }
 
             bool empty() const
             {
@@ -163,7 +190,7 @@ namespace ft
 
             size_type erase (const key_type& k)
             {
-                 return (_tree.deleteNode(k));
+                 return (tree.deleteNode(k));
             }
 
             void erase (iterator first, iterator last)

@@ -3,7 +3,7 @@
 
 int main(void){
 
-	 // ft::mymap<int,int> map;
+	 ft::map<int,int> map;
 	//
 	//
 	// tree.insert(100);

@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 15:06:41 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:12:08 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 
 namespace ft{
 
-// struct Node
+//==============     NODE         ==============
 template <class T, class Alloc = std::allocator<T> >
 struct Node {
 	typedef T value_type;

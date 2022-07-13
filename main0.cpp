@@ -31,10 +31,15 @@ int main(void){
 	tree.printHelper(tree.getRoot(), "", true);
 	std::cout << "SIZE : " << tree.size() << std::endl;
 
-	ft::rbtree<int>::const_reverse_iterator it = tree.rbegin();
+	ft::rbtree<int>::iterator sit = tree.search(1000);
+	ft::rbtree<int>::iterator end = tree.end();
+
+	std::cout << (sit != end ? *sit : 999) << std::endl;
+
+	// ft::rbtree<int>::const_reverse_iterator it = tree.rbegin();
 	
-	//--it;
-	std::cout << *it << std::endl;
+	// //--it;
+	// std::cout << *it << std::endl;
 	//ft::rbtree<int>::const_iterator end = tree.end();
 	// ++it;
 	// ++it;

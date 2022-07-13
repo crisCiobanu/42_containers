@@ -123,48 +123,56 @@ class rbtree{
 
 		//==============     BOUNDS           ==============	
 
-		iterator lower_bound( const_refence value ){
+		iterator lower_bound( const_reference value ){
 			iterator first = this -> begin();
 			iterator last = this -> end();
 			while ( first != last){
-				if (!cmp(*first, value))
+				if (!this -> cmp(*first, value))
 					return first;
 				++first;
 			}
 			return last;
 		}
 
-		const_iterator lower_bound( const_refence value ){
+		const_iterator lower_bound( const_reference value ) const {
 			const_iterator first = this -> begin();
 			const_iterator last = this -> end();
 			while ( first != last){
-				if (!cmp(*first, value))
+				if (!this -> cmp(*first, value))
 					return first;
 				++first;
 			}
 			return last;
 		}
 
-		iterator upper_bound( const_refence value ){
+		iterator upper_bound( const_reference value ){
 			iterator first = this -> begin();
 			iterator last = this -> end();
 			while ( first != last){
-				if (cmp(value, *first))
+				if (this -> cmp(value, *first))
 					return first;
 				++first;
 			}
 			return last;
 		}
 
-		const_iterator upper_bound( const_refence value ){
+		const_iterator upper_bound( const_reference value )const {
 			const_iterator first = this -> begin();
 			const_iterator last = this -> end();
 			while ( first != last){
-				if (cmp(value, *first))
+				if (this -> cmp(value, *first))
 					return first;
 				++first;
 			}
 			return last;
+		}
+
+		ft::pair<iterator, iterator> equal_range( const_reference value){
+			return (ft::make_pair<iterator, iterator>(lower_bound(value), upper_bound(value)));
+		}
+
+		ft::pair<const_iterator, const_iterator> equal_range( const_reference value) const {
+			return (ft::make_pair<const_iterator, const_iterator>(lower_bound(value), upper_bound(value)));
 		}
 
 		//==============     FUNCTIONS        ==============

@@ -28,8 +28,8 @@ class rbtree{
 
 		typedef tree_iterator<value_type>                        iterator;
 		typedef tree_iterator<const value_type>                 const_iterator;
-		typedef std::reverse_iterator<iterator>						reverse_iterator;
-		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>						reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 	private:
 		node_pointer 		root;
   		node_pointer 		TNULL;
@@ -44,15 +44,15 @@ class rbtree{
 	      return (_size == 0 ? end() : iterator(minimum(this->root), TNULL, this->root));
 	    }
 	    const_iterator begin() const {
-	      return (_size == 0 ? end() : const_iterator(begin()));
+	      return (_size == 0 ? end() : const_iterator(minimum(this->root), TNULL, this->root));
 	    }
 
 	    iterator end() {
-	      return (iterator(TNULL));
+	      return (iterator(TNULL, TNULL, root));
 	    }
 
 	    const_iterator end() const {
-	      return (const_iterator());
+	      return (const_iterator(TNULL, TNULL, root));
 	    }
 
 		reverse_iterator rbegin()

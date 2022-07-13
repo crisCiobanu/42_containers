@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 09:17:06 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:06:41 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,7 @@ template <class T1, class T2>
 template <class T1, class T2>
 pair<T1, T2> make_pair (T1 x, T2 y) { return pair<T1, T2>(x, y); }
 
-};
+
 
 
 //==============     LEXICOGRAPHICAL COMPARE       ==============
@@ -165,32 +165,6 @@ template<class T> struct enable_if<true, T> { typedef T type; };
 
 //==============     IS INTEGRAL        ==============
 
-// template<class T, bool v>
-// struct integral_constant {
-// 	static const bool value = v;
-// 	typedef T value_type;
-// 	typedef integral_constant type;
-// 	operator value_type() const { return value; }
-// };
-//
-// template <class T> struct is_integral				: public ft::integral_constant<T, false> {};
-// template <> struct is_integral<bool>				: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<char>				: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<signed char>			: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<unsigned char>		: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<wchar_t>				: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<char16_t>			: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<short>				: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<unsigned short>		: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<int>					: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<unsigned int>		: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<long>				: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<unsigned long> 		: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<long long>			: public ft::integral_constant<bool, true> {};
-// template <> struct is_integral<unsigned long long>	: public ft::integral_constant<bool, true> {};
-namespace ft
-{
-
     template<class T, T v>
     struct integral_constant
     {
@@ -217,4 +191,4 @@ namespace ft
     template<> struct is_integral<unsigned int> : public true_type{};
     template<> struct is_integral<unsigned long int> : public true_type{};
     template<> struct is_integral<unsigned long long int> : public true_type{};
-}
+};

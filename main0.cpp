@@ -14,7 +14,7 @@ int main(void){
 	// mp.insert(second);
 	// mp.insert(third);
 
-	// std::map<int, std::string>::const_iterator start = mp.begin();
+	// std::map<int, std::string>::reverse_iterator start = mp.rend();
 
 	// std::cout << "BEGIN : " << start -> first << std::endl; 
 	// ++start;
@@ -31,12 +31,15 @@ int main(void){
 	tree.printHelper(tree.getRoot(), "", true);
 	std::cout << "SIZE : " << tree.size() << std::endl;
 
-	ft::rbtree<int>::iterator it = tree.begin();
-	ft::rbtree<int>::const_iterator end = tree.end();
-	++it;
-	++it;
-	++it;
-	std::cout << (it==end ? "TRUE" : "FALSE") << std::endl;
+	ft::rbtree<int>::const_reverse_iterator it = tree.rbegin();
+	
+	//--it;
+	std::cout << *it << std::endl;
+	//ft::rbtree<int>::const_iterator end = tree.end();
+	// ++it;
+	// ++it;
+	// ++it;
+	// std::cout << (it==end ? "TRUE" : "FALSE") << std::endl;
 
 
 

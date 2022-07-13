@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/02 15:12:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/08 10:55:13 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/13 15:04:54 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ class vector {
 
 		typedef ft::my_iter<value_type>								iterator;
 		typedef ft::my_iter<const value_type>						const_iterator;
-		typedef std::reverse_iterator<iterator>						reverse_iterator;
-		typedef std::reverse_iterator<const_iterator>				const_reverse_iterator;
+		typedef ft::reverse_iterator<iterator>						reverse_iterator;
+		typedef ft::reverse_iterator<const_iterator>				const_reverse_iterator;
 		
 	private:
 		pointer			_first;

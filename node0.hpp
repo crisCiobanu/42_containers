@@ -121,7 +121,50 @@ class rbtree{
 
 		size_type max_size() const { return con_alloc.max_size(); }
 
+		//==============     BOUNDS           ==============	
+
+		iterator lower_bound( const_refence value ){
+			iterator first = this -> begin();
+			iterator last = this -> end();
+			while ( first != this -> end()){
+				if (!cmp(*first, value))
+					return first;
+				++first;
+			}
+			return last;
+		}
+
+		const_iterator lower_bound( const_refence value ){
+			const_iterator first = this -> begin();
+			const_iterator last = this -> end();
+			while ( first != this -> end()){
+				if (!cmp(*first, value))
+					return first;
+				++first;
+			}
+			return last;
+		}
+
+		iterator upper_bound( const_refence value ){
+			iterator first = this -> begin();
+			iterator last = this -> end();
+			while ( first != this -> end()){
+				if (!cmp(*first, value))
+					return first;
+				++first;
+			}
+			return last;
+		}
+
 		//==============     FUNCTIONS        ==============
+
+		iterator find(const_reference value){
+			return (search(value) ? iterator(search(value), this -> TNULL, this -> root) : this -> end());
+		}
+
+		const_iterator find(const_reference value) const {
+			return (search(value) ? const_iterator(search(value), this -> TNULL, this -> root) : this -> end());
+		}
 
 		void clear()
 		{
@@ -320,11 +363,9 @@ class rbtree{
     insertFix(node);
   }
 
-	iterator find(const_reference value){
-		return (search(value) ? iterator(search(value), this -> TNULL, this -> root) : this -> end());
-	}
+	private:
 
-  	node_pointer search(const_reference value){
+	node_pointer search(const_reference value){
 		node_pointer node = this -> root;
 		node_pointer z = TNULL;
 
@@ -340,8 +381,6 @@ class rbtree{
 			return NULL;
 		return z;
 	}
-
-	private:
 	void init_tree() {
 		TNULL = node_alloc.allocate(1);
 		node_alloc.construct( TNULL, 0);

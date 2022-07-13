@@ -126,7 +126,7 @@ class rbtree{
 		iterator lower_bound( const_refence value ){
 			iterator first = this -> begin();
 			iterator last = this -> end();
-			while ( first != this -> end()){
+			while ( first != last){
 				if (!cmp(*first, value))
 					return first;
 				++first;
@@ -137,7 +137,7 @@ class rbtree{
 		const_iterator lower_bound( const_refence value ){
 			const_iterator first = this -> begin();
 			const_iterator last = this -> end();
-			while ( first != this -> end()){
+			while ( first != last){
 				if (!cmp(*first, value))
 					return first;
 				++first;
@@ -148,8 +148,19 @@ class rbtree{
 		iterator upper_bound( const_refence value ){
 			iterator first = this -> begin();
 			iterator last = this -> end();
-			while ( first != this -> end()){
-				if (!cmp(*first, value))
+			while ( first != last){
+				if (cmp(value, *first))
+					return first;
+				++first;
+			}
+			return last;
+		}
+
+		const_iterator upper_bound( const_refence value ){
+			const_iterator first = this -> begin();
+			const_iterator last = this -> end();
+			while ( first != last){
+				if (cmp(value, *first))
 					return first;
 				++first;
 			}

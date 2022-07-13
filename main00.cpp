@@ -1,21 +1,20 @@
 #include "vector.hpp"
 #include "map.hpp"
+#include "utils.hpp"
 
 int main(void){
 
-	 ft::map<int,int> map;
+	 ft::map< int,int > test;
 	//
-	//
-	// tree.insert(100);
-	// tree.insert(200);
-	// tree.insert(300);
+	// ft::rbtree< ft::pair<int,int> > tree;
+	// tree.insert(make_pair(100,200));
 	// ft::rbtree<int>::iterator iter = tree.begin();
-	//
-	// // for(iter = tree.begin(); iter != tree.end(); iter++)
-	// // 	std::cout << *iter << std::endl;
-	// // --iter;
-	// // ++iter;
-	// // ++iter;
+
+	// for(iter = tree.begin(); iter != tree.end(); iter++)
+	// 	std::cout << *iter << std::endl;
+	// --iter;
+	// ++iter;
+	// ++iter;
 	// --iter;
 	// ++iter;
 	// std::cout << *iter << std::endl;

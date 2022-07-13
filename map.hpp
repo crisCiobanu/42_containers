@@ -1,14 +1,16 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 # include "utils.hpp"
-# include "node0.hpp"
+# include "node01.hpp"
+# include <functional>  // std::less
+# include <memory>      // std::allocator
 
 namespace ft
 {
     template < class Key,                                     // map::key_type
            class T,                                       // map::mapped_type
            class Compare = std::less<Key>,                     // map::key_compare
-           class Alloc = std::allocator<pair<const Key,T> > >   // map::allocator_type
+           class Alloc = std::allocator<ft::pair<const Key,T> > >   // map::allocator_type
     class map
     {
         public:
@@ -48,24 +50,34 @@ namespace ft
           //       return comp(x.first, y.first);
           //     }
           // };
-          class value_compare : public std::binary_function<value_type, value_type, bool> {
-            protected:
-            key_compare comp;
+          // class value_compare : public std::binary_function<value_type, value_type, bool> {
+          //   protected:
+          //   key_compare comp;
+          //
+          //   public:
+          //   value_compare(key_compare c) : comp(c) {}
+          //   ~value_compare() {}
+          //
+          //   bool operator()(const value_type& x, const value_type& y) const {
+          //     return (comp(x.first, y.first));
+          //   }
+          //   bool operator()(const value_type& x, const key_type& y) const {
+          //     return (comp(x.first, y));
+          //   }
+          //   bool operator()(const key_type& x, const value_type& y) const {
+          //     return (comp(x, y.first));
+          //   }
+          // };
+          class value_compare {
+			key_compare cmp;
 
-            public:
-            value_compare(key_compare c) : comp(c) {}
-            ~value_compare() {}
-
-            bool operator()(const value_type& x, const value_type& y) const {
-              return (comp(x.first, y.first));
-            }
-            bool operator()(const value_type& x, const key_type& y) const {
-              return (comp(x.first, y));
-            }
-            bool operator()(const key_type& x, const value_type& y) const {
-              return (comp(x, y.first));
-            }
-          };
+		public:
+			value_compare(const key_compare & cmp) : cmp(cmp) {}
+			bool operator()(const value_type& x, const value_type& y) const {
+				return cmp(x.first, y.first);
+				//return cmp(x.first, y.first) || (!cmp(y.first, x.first) && x.second < y.second);
+			}
+		      };
 
 
 
@@ -78,36 +90,56 @@ namespace ft
             rbtree<value_type, value_compare, allocator_type> tree;
             key_compare cmp;
 
-
-
-
         public :
-            template <class InputIterator>
-            map (InputIterator first, InputIterator last,
-                const key_compare& comp = key_compare(),
-                const allocator_type& alloc = allocator_type())
-                : tree(tree_type(first, last, value_compare(comp), alloc)), cmp(comp) {}
+            // template <class InputIterator>
+            // map (InputIterator first, InputIterator last,
+            //     const key_compare& comp = key_compare(),
+            //     const allocator_type& alloc = allocator_type())
+            //     : tree(tree_type(first, last, value_compare(comp), alloc)), cmp(comp) {}
+            //
+            // explicit map (const key_compare& comp = key_compare(),
+            // const allocator_type& alloc = allocator_type()) : cmp(comp), tree(tree_type(value_compare(comp), alloc)) {}
+            //
+            // map& operator=(const map& rhs)
+            // {
+            //     if(this!= &rhs)
+            //     {
+            //         tree = rhs.tree;
+            //         cmp = cmp.tree;
+            //     }
+            //     return(*this);
+            // }
+            //
+            // map (const map& x)
+            // {
+            //     *this = x;
+            //     return ;
+            // }
+            //
+            // ~map() {}
+        public:
+            explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
+			tree(tree_type(value_compare(comp), alloc)), cmp(comp){}
 
-            explicit map (const key_compare& comp = key_compare(),
-            const allocator_type& alloc = allocator_type()) : cmp(comp), tree(tree_type(value_compare(comp), alloc)) {}
+    		template< class InputIt >
+    		map(InputIt first, InputIt last, const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
+            : tree(tree_type(first, last, value_compare(comp), alloc)),cmp(comp) {}
 
-            map& operator=(const map& rhs)
-            {
-                if(this!= &rhs)
-                {
-                    tree = rhs.tree;
-                    cmp = cmp.tree;
-                }
-                return(*this);
-            }
+    		map(const map& other): tree(tree_type(other.tree)), cmp(other.cmp) {}
 
-            map (const map& x)
-            {
-                *this = x;
-                return ;
-            }
+    		// operators
 
-            ~map() {}
+    		map& operator=(const map& other) {
+    			this->tree = other.tree;
+    			this->cmp = other.cmp;
+    			return *this;
+    		}
+
+		// mapped_type& operator[]( const key_type& key ) {
+		// 	return tree.insert(ft::make_pair(key, mapped_type())).first->second;
+		// }
+
+
 
             iterator begin()
             {
@@ -124,7 +156,7 @@ namespace ft
             }
             // const_iterator end() const
             // {
-            //     return (_tree.end());
+            //     return (tree.end());
             // }
             //
             // reverse_iterator rbegin()

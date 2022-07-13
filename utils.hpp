@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 15:12:08 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/13 16:00:19 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ struct Node {
 	bool is_null;
 
 
-	Node():data(0), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
+	Node():data(value_type()), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
 	Node(const Node &rhs)
 	{
 		*this = rhs;
@@ -53,6 +53,10 @@ struct Node {
 	}
  ~Node(){ } ;
 };
+
+//==============     enable_if        ==============
+template <bool Cond, class T = void> struct enable_if{};
+template<class T> struct enable_if<true, T> { typedef T type; };
 
 
 //==============     PAIR         ==============

@@ -13,6 +13,10 @@ int main(void){
 	// mp.insert(second);
 	// mp.insert(third);
 
+	// std::map<int, std::string>::iterator it = mp.begin();
+
+	// (*it).first = 100;
+
 	// std::map<int, std::string>::reverse_iterator start = mp.rend();
 
 	// std::cout << "BEGIN : " << start -> first << std::endl; 

@@ -10,7 +10,7 @@ namespace ft
     template < class Key,                                     // map::key_type
            class T,                                       // map::mapped_type
            class Compare = std::less<Key>,                     // map::key_compare
-           class Alloc = std::allocator<ft::pair<const Key,T> > >   // map::allocator_type
+           class Alloc = std::allocator<ft::pair<Key,T> > >   // map::allocator_type
     class map
     {
         public:
@@ -30,7 +30,7 @@ namespace ft
             // typedef ft::reverse_iterator<const_iterator>            const_reverse_iterator;
             // typedef iterator_traits<iterator>::difference_type      difference_type;
             typedef size_t                                          size_type;
-
+			typedef std::ptrdiff_t difference_type;
 
 
 
@@ -133,6 +133,10 @@ namespace ft
     			return *this;
     		}
 
+			void printTree(){
+				this -> tree.printHelper(this -> tree.getRoot(), "", true);
+			}
+
 		// mapped_type& operator[]( const key_type& key ) {
 		// 	return tree.insert(ft::make_pair(key, mapped_type())).first->second;
 		// }
@@ -206,17 +210,17 @@ namespace ft
             template <class InputIterator>
             void insert (typename ft::enable_if< !ft::is_integral<InputIterator>::value, InputIterator >::type first,InputIterator last)
             {
-                tree.insert(first, last);
+                tree.insert_val(first, last);
             }
 
             iterator insert (iterator position, const value_type& val)
             {
-                return tree.insert(position, val);
+                return tree.insert_val(position, val);
             }
 
             ft::pair<iterator,bool> insert (const value_type& val)
             {
-                return tree.insert(val);
+                return tree.insert_val(val);
             }
 
             // void erase (iterator position)

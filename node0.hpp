@@ -187,13 +187,20 @@ class rbtree{
 			return (search(value) ? const_iterator(search(value), this -> TNULL, this -> root) : this -> end());
 		}
 
-		ft::pair<iterator, bool> insert( const_reference value){
+		ft::pair<iterator, bool> insert_val( const_reference value){
 			iterator tmp = this -> find(value);
 			if (tmp != this -> end())
 				return (ft::make_pair<iterator, bool>(tmp, false));
 			this -> insert(value);
 			return (ft::make_pair<iterator, bool>(this -> find(value), true));
 		}
+
+		template<class InputIt>
+  		void insert_val(typename ft::enable_if< !ft::is_integral<InputIt>::value, InputIt >::type first, InputIt last)
+  		{
+	  		for (; first != last; ++first)
+		  		insert(*first);
+  		}
 
 		void clear()
 		{
@@ -388,12 +395,7 @@ class rbtree{
     insertFix(node);
   }
 
-  template<class InputIt>
-  void insert(typename ft::enable_if< !ft::is_integral<InputIt>::value, InputIt >::type first, InputIt last)
-  {
-	  for (; first != last; ++first)
-		  insert(*first);
-  }
+
 
 	private:
 
@@ -611,7 +613,7 @@ public:
       	}
 
       string sColor = root->color ? "RED" : "BLACK";
-      cout << root->data << "(" << sColor << ")" << endl;
+      cout << root->data.first << " " << root-> data.second  << "(" << sColor << ")" << endl;
       printHelper(root->left, indent, false);
       printHelper(root->right, indent, true);
     }

@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/13 16:31:49 by jperras          ###   ########.fr       */
+/*   Updated: 2022/07/14 13:09:51 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,19 @@ struct pair{
 
 	pair(const pair &rhs) : first(rhs.first), second(rhs.second) { }
 
-	pair & operator=(const pair &rhs){
+	template <typename U1, typename U2>
+	pair<T1, T2> & operator=(const pair<U1, U2> &rhs){
 		this -> first = rhs.first;
 		this -> second = rhs.second;
 		return (*this);
 	}
+
+	pair<T1, T2> & operator=(const pair<T1, T2> &rhs){
+		this -> first = rhs.first;
+		this -> second = rhs.second;
+		return (*this);
+	}
+	
 };
 
 //==============     Comparison operations           ==============

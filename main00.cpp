@@ -2,12 +2,21 @@
 #include "map.hpp"
 #include "utils.hpp"
 
+
 int main(void){
 
 	 ft::map< int,int > map;
-	 ft::map< int,int >::iterator iter = map.begin();
+
 	 map.insert ( ft::pair<int,int>(1, 100) );
   	 map.insert ( ft::pair<int,int>(2, 200) );
+	ft::map< int,int >::iterator iter = map.begin();
+
+	std::cout << (*iter).first << std::endl;
+	//(*iter).first = 200;
+	std::cout << (*iter).first << std::endl;
+	 map.printTree();
+
+
 
 	 // test.insert ( std::pair<int,int>(10,100),10 );
 	//

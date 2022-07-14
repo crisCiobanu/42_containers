@@ -1,7 +1,7 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 # include "utils.hpp"
-# include "node02.hpp"
+# include "node0.hpp"
 # include <functional>  // std::less
 # include <memory>      // std::allocator
 
@@ -127,8 +127,6 @@ namespace ft
 
     		map(const map& other): tree(tree_type(other.tree)), cmp(other.cmp) {}
 
-    		// operators
-
     		map& operator=(const map& other) {
     			this->tree = other.tree;
     			this->cmp = other.cmp;
@@ -141,43 +139,47 @@ namespace ft
 
 
 
+
+
             iterator begin()
             {
-                return(tree.begin());
-            }
+                return tree.begin();
+    		}
 
-            const_iterator begin() const
+    		const_iterator begin() const
             {
-                return(tree.begin());
-            }
-            iterator end()
-            {
-                return (tree.end());
-            }
-            // const_iterator end() const
-            // {
-            //     return (tree.end());
-            // }
-            //
-            // reverse_iterator rbegin()
-            // {
-            //
-            // }
+    			return tree.begin();
+    		}
 
-            // const_reverse_iterator rbegin() const
+    		iterator end()
+            {
+    			return tree.end();
+    		}
+
+    		const_iterator end() const
+            {
+    			return tree.end();
+    		}
+
+    		// reverse_iterator rbegin()
             // {
-            //
-            // }
-            //
-            // reverse_iterator rend()
+    		// 	return tree.rbegin();
+    		// }
+
+    		// const_reverse_iterator rbegin() const
             // {
-            //
-            // }
-            //
-            // const_reverse_iterator rend() const
+    		// 	return tree.rbegin();
+    		// }
+
+    		// reverse_iterator rend() {
+    		// 	return tree.rend();
+    		// }
+
+    		// const_reverse_iterator rend() const
             // {
-            //
-            // }
+    		// 	return tree.rend();
+    		// }
+
 
             bool empty() const
             {
@@ -194,15 +196,17 @@ namespace ft
                 return(tree.max_size());
             }
 
+
+
             mapped_type& operator[] (const key_type& k)
             {
 
             }
 
             template <class InputIterator>
-            void insert (InputIterator first, InputIterator last)
+            void insert (typename ft::enable_if< !ft::is_integral<InputIterator>::value, InputIterator >::type first,InputIterator last)
             {
-
+                tree.insert(first, last);
             }
 
             iterator insert (iterator position, const value_type& val)
@@ -215,76 +219,90 @@ namespace ft
                 return tree.insert(val);
             }
 
-            void erase (iterator position)
-            {
-
-            }
-
-            size_type erase (const key_type& k)
-            {
-                 return (tree.deleteNode(k));
-            }
-
-            void erase (iterator first, iterator last)
-            {
-
-            }
+            // void erase (iterator position)
+            // {
+            //     deleteNodeHelper(position)
+            // }
+            //
+            // size_type erase (const key_type& k)
+            // {
+            //      return (tree.deleteNode(k));
+            // }
+            //
+            // void erase (iterator first, iterator last)
+            // {
+            //
+            // }
             void swap (map& x)
             {
+                std::swap(this->cmp, x.cmp);
+			    tree.swap(x.tree);
+		     }
 
-            }
             void clear()
             {
-
+                tree.clear();
             }
-            key_compare key_comp() const
-            {
 
-            }
             value_compare value_comp() const
             {
+                return tree.value_comp();
+		     }
 
-            }
+		    key_compare key_comp() const
+            {
+                return cmp;
+		    }
+
             iterator find (const key_type& k)
             {
-
+                return tree.find(ft::make_pair(k, mapped_type()));
             }
+
             const_iterator find (const key_type& k) const
             {
-
+                return tree.find(ft::make_pair(k, mapped_type()));
             }
+
             size_type count (const key_type& k) const
             {
 
             }
+
             iterator lower_bound (const key_type& k)
             {
-
+                return tree.lower_bound(ft::make_pair(k, mapped_type()));
             }
+
             const_iterator lower_bound (const key_type& k) const
             {
-
+                return tree.lower_bound(ft::make_pair(k, mapped_type()));
             }
+
             iterator upper_bound (const key_type& k)
             {
-
+                return tree.upper_bound(ft::make_pair(k, mapped_type()));
             }
+
             const_iterator upper_bound (const key_type& k) const
             {
-
+                return tree.upper_bound(ft::make_pair(k, mapped_type()));
             }
+
             pair<const_iterator,const_iterator> equal_range (const key_type& k) const
             {
-
+                return tree.equal_range(ft::make_pair(k, mapped_type()));
             }
+
             pair<iterator,iterator>             equal_range (const key_type& k)
             {
-
+                return tree.equal_range(ft::make_pair(k, mapped_type()));
             }
+
             allocator_type get_allocator() const
             {
-
-            }
+    			return tree.get_allocator();
+    		}
 
     };
 }

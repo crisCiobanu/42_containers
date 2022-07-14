@@ -620,6 +620,12 @@ public:
 		return(size);
 	}
 
+	allocator_type get_allocator() const
+	{
+		return con_alloc;
+	}
+
+
 	size_type max_size() const
 	{
 		return(con_alloc.max_size());

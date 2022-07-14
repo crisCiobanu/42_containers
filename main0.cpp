@@ -1,29 +1,36 @@
 #include "vector.hpp"
 #include "node0.hpp"
 #include <map>
+#include "set.hpp"
 
 int main(void){
 
-	std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
-	std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
-	std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
+	ft::set<int> st;
 
-	std::map<int, std::string> mp;
-	mp.insert(first);
-	mp.insert(second);
-	mp.insert(third);
+	st.insert(10);
+	st.insert(50);
+	st.insert(-10);
 
-	std::map<int, std::string>::iterator it = mp.begin();
-	mp.erase(it);
+	// std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
+	// std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
+	// std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
 
-	mp.erase(it);
+	// std::map<int, std::string> mp;
+	// mp.insert(first);
+	// mp.insert(second);
+	// mp.insert(third);
+
+	// std::map<int, std::string>::iterator it = mp.begin();
+	// mp.erase(it);
+
+	// mp.erase(it);
 	
-	std::map<int, std::string>::iterator start = mp.begin();
-	std::map<int, std::string>::iterator end = mp.end();
-	while (start != end){
-		std::cout << start -> first << " " << start -> second << std::endl;
-		++start;
-	}
+	// std::map<int, std::string>::iterator start = mp.begin();
+	// std::map<int, std::string>::iterator end = mp.end();
+	// while (start != end){
+	// 	std::cout << start -> first << " " << start -> second << std::endl;
+	// 	++start;
+	// }
 
 	// std::map<int, std::string>::iterator it = mp.begin();
 

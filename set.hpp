@@ -29,7 +29,7 @@ namespace ft
 
 			typedef typename rbtree<value_type, value_compare, allocator_type>::iterator					iterator;
         	typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator				const_iterator;
-			typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_iterator			revereseiterator;
+			typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_iterator			reverese_iterator;
         	typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_const_iterator		reverse_const_iterator;
 
         private:
@@ -97,20 +97,32 @@ namespace ft
                 return tree.insert_val(val);
             }
 
-            // void erase (iterator position)
-            // {
-            //     deleteNodeHelper(position)
-            // }
-            //
-            // size_type erase (const key_type& k)
-            // {
-            //      return (tree.deleteNode(k));
-            // }
-            //
-            // void erase (iterator first, iterator last)
-            // {
-            //
-            // }
+            void erase (iterator position)
+            {
+                tree.deleteNodeHelper(position.getCurrent()->data);
+            }
+
+            size_type erase (const key_type& k)
+            {
+
+                iterator iter = find(k);
+                if(iter != end())
+                {
+                    erase(iter);
+                    return(1);
+                }
+                return(0);
+            }
+
+            void erase (iterator first, iterator last)
+            {
+                while(first != last)
+                {
+                    erase (first);
+                    first++;
+                }
+            }
+			
             void swap (map& x) { tree.swap(x.tree); }
 
             void clear() { tree.clear(); }

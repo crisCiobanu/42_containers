@@ -274,8 +274,8 @@ namespace ft
             {
                 return tree.find(ft::make_pair(k, mapped_type()));
             }
-			
-		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0) }  //  TO-DO
+
+		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0) ;} 
 
             iterator lower_bound (const key_type& k)
             {

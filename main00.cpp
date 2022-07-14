@@ -4,8 +4,11 @@
 
 int main(void){
 
-	 ft::map< int,int > test;
-	 ft::map< int,int >::iterator iter = test.begin();
+	 ft::map< int,int > map;
+	 ft::map< int,int >::iterator iter = map.begin();
+	 map.insert ( ft::pair<int,int>(1, 100) );
+  	 map.insert ( ft::pair<int,int>(2, 200) );
+
 	 // test.insert ( std::pair<int,int>(10,100),10 );
 	//
 	// ft::rbtree< ft::pair<int,int> > tree;

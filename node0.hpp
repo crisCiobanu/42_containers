@@ -7,7 +7,7 @@ using namespace std;
 namespace ft{
 
 //=================================================================
-//==============           Red Black Tree            ==============	
+//==============           Red Black Tree            ==============
 //=================================================================
 
 template <class Value, class Compare = std::less<Value>, class Alloc = std::allocator<Value> >
@@ -119,9 +119,11 @@ class rbtree{
 
 		size_type size() const { return this->_size; }
 
+		allocator_type get_allocator() const { return con_alloc; }
+
 		size_type max_size() const { return con_alloc.max_size(); }
 
-		//==============     BOUNDS           ==============	
+		//==============     BOUNDS           ==============
 
 		iterator lower_bound( const_reference value ){
 			iterator first = this -> begin();
@@ -201,12 +203,7 @@ class rbtree{
 			std::swap(this -> _size, rhs -> _size);
 		}
 
-		allocator_type get_allocator() const { return con_alloc; }
-
 		value_compare value_comp() const { return this->cmp; }
-
-
-
 
 		// create a node
 		node_pointer createNode(const value_type & data)
@@ -382,6 +379,13 @@ class rbtree{
     insertFix(node);
   }
 
+  template<class InputIt>
+  void insert(typename ft::enable_if< !ft::is_integral<InputIt>::value, InputIt >::type first, InputIt last)
+  {
+	  for (; first != last; ++first)
+		  insert(*first);
+  }
+
 	private:
 
 	node_pointer search(const_reference value){
@@ -402,7 +406,7 @@ class rbtree{
 	}
 	void init_tree() {
 		TNULL = node_alloc.allocate(1);
-		node_alloc.construct( TNULL, 0);
+		node_alloc.construct( TNULL, value_type());
 		TNULL -> color = 0;
 		TNULL -> is_null = 1;
 	}
@@ -415,7 +419,6 @@ class rbtree{
 		tmp -> data = rhs -> data;
 		return tmp;
 	}
-
 
 	void copy_branches(node_pointer lhs, node_pointer rhs){
 		if (rhs -> left -> is_null)

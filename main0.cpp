@@ -10,6 +10,9 @@ int main(void){
 	st.insert(10);
 	st.insert(50);
 	st.insert(-10);
+	st.erase(10);
+
+	std::cout << st.size() << std::endl;
 
 	// std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
 	// std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");

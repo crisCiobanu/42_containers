@@ -29,8 +29,8 @@ namespace ft
 
 			typedef typename rbtree<value_type, value_compare, allocator_type>::iterator					iterator;
         	typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator				const_iterator;
-			typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_iterator			reverese_iterator;
-        	typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_const_iterator		reverse_const_iterator;
+			typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_iterator			reverse_iterator;
+        	typedef typename rbtree<value_type, value_compare, allocator_type>::const_reverse_iterator		const_reverse_iterator;
 
         private:
             rbtree<value_type, value_compare, allocator_type> tree;
@@ -44,7 +44,7 @@ namespace ft
 
     		template< class InputIt >
     		set(InputIt first, InputIt last, const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
-            : tree(tree_type(first, last, comp, alloc)),cmp(comp) {}
+            : tree(tree_type(first, last, comp, alloc)) {}
 
     		set(const set& other): tree(tree_type(other.tree)) {}
 
@@ -123,19 +123,19 @@ namespace ft
                 }
             }
 			
-            void swap (map& x) { tree.swap(x.tree); }
+            void swap (set& x) { tree.swap(x.tree); }
 
             void clear() { tree.clear(); }
 
             value_compare value_comp() const { return tree.value_comp(); }
 
-		    key_compare key_comp() const { return cmp; }
+		    key_compare key_comp() const { return value_comp(); }
 
             iterator find (const key_type& k) { return tree.find(k); }
 
             const_iterator find (const key_type& k) const { return tree.find(k); }
 
-		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0) }  //  TO-DO
+		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0); }  //  TO-DO
 
 			allocator_type get_allocator() const { return tree.get_allocator(); }
 

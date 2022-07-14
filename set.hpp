@@ -27,10 +27,10 @@ namespace ft
 			typedef std::ptrdiff_t 																	difference_type;
         	typedef rbtree<value_type, value_compare, allocator_type>								tree_type;
 
-			typedef typename rbtree<value_type, value_compare, allocator_type>::iterator					iterator;
-        	typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator				const_iterator;
-			typedef typename rbtree<value_type, value_compare, allocator_type>::reverse_iterator			reverse_iterator;
-        	typedef typename rbtree<value_type, value_compare, allocator_type>::const_reverse_iterator		const_reverse_iterator;
+			typedef typename tree_type::iterator													iterator;
+        	typedef typename tree_type::const_iterator												const_iterator;
+			typedef typename tree_type::reverse_iterator											reverse_iterator;
+        	typedef typename tree_type::const_reverse_iterator										const_reverse_iterator;
 
         private:
             rbtree<value_type, value_compare, allocator_type> tree;
@@ -52,6 +52,8 @@ namespace ft
     			this->tree = other.tree;
     			return *this;
     		}
+
+			~set() {}
 
 			//==============     ITERATORS         ==============
 
@@ -160,6 +162,38 @@ namespace ft
 			// }
 
     };
+
+	//==============     Comparison operations           ==============	
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator==( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+		
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator!=( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator<=( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+
+	}
+
+	template< class Key, class T, class Compare, class Alloc >
+	bool operator>=( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){
+
+	}
 }
 
 #endif

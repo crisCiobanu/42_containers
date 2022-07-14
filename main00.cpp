@@ -16,7 +16,7 @@ int main(void){
 	std::cout <<  map[1]<< std::endl;
 	// iter = map.find(1);
 	std::cout << map.erase(5) <<std::endl;
-	 map.printTree();
+
 
 
 

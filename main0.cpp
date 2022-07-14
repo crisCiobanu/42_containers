@@ -4,14 +4,26 @@
 
 int main(void){
 
-	// std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
-	// std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
-	// std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
+	std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
+	std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");
+	std::pair<int , std::string> third = std::pair<int , std::string>(300, "third");
 
-	// std::map<int, std::string> mp;
-	// mp.insert(first);
-	// mp.insert(second);
-	// mp.insert(third);
+	std::map<int, std::string> mp;
+	mp.insert(first);
+	mp.insert(second);
+	mp.insert(third);
+
+	std::map<int, std::string>::iterator it = mp.begin();
+	mp.erase(it);
+
+	mp.erase(it);
+	
+	std::map<int, std::string>::iterator start = mp.begin();
+	std::map<int, std::string>::iterator end = mp.end();
+	while (start != end){
+		std::cout << start -> first << " " << start -> second << std::endl;
+		++start;
+	}
 
 	// std::map<int, std::string>::iterator it = mp.begin();
 
@@ -24,21 +36,21 @@ int main(void){
 	// std::cout << "BEGIN : " << start -> first << std::endl; 
 
 
-	ft::rbtree<int> tree;
+	// ft::rbtree<int> tree;
 
-	tree.insert(100);
-	tree.insert(200);
-	tree.insert(300);
+	// tree.insert(100);
+	// tree.insert(200);
+	// tree.insert(300);
 
-	std::cout << "START" << std::endl;
-	tree.printHelper(tree.getRoot(), "", true);
-	std::cout << "SIZE : " << tree.size() << std::endl;
+	// std::cout << "START" << std::endl;
+	// tree.printHelper(tree.getRoot(), "", true);
+	// std::cout << "SIZE : " << tree.size() << std::endl;
 
-	ft::rbtree<int>::const_iterator sit = tree.find(1000);
-	ft::rbtree<int>::const_iterator end = tree.end();
+	// ft::rbtree<int>::const_iterator sit = tree.find(1000);
+	// ft::rbtree<int>::const_iterator end = tree.end();
 
-	std::cout << *end << std::endl;
-	std::cout << *sit << std::endl;
+	// std::cout << *end << std::endl;
+	// std::cout << *sit << std::endl;
 	// std::cout << (sit != end ? *sit : 999) << std::endl;
 
 	// ft::rbtree<int>::const_reverse_iterator it = tree.rbegin();

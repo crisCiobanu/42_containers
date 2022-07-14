@@ -197,7 +197,11 @@ class rbtree{
 			return (ft::make_pair<iterator, bool>(this -> find(value), true));
 		}
 
-		
+		iterator insert_val(iterator hint, const_reference value){
+			(void)hint;
+
+			return (insert_val(value).first);
+		}
 
 		template<class InputIt>
   		void insert_val(typename ft::enable_if< !ft::is_integral<InputIt>::value, InputIt >::type first, InputIt last)

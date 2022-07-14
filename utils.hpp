@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/14 13:09:51 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/14 14:16:55 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,7 @@ struct Node {
 		*this = rhs;
 		return;
 	}
-	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){
-		this -> data = rhs;
+	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false), data(rhs){
 	};
 
 	Node& operator=(const Node &rhs)
@@ -66,23 +65,23 @@ struct pair{
 
 	//==============     Constructors          ==============
 
-	pair() : first(first_type()), second(second_type()) { }
+	pair() : first(), second() {}
 
 	pair(const T1& a, const T2& b) : first(a), second(b) { }
 
 	template <class U1, class U2>
 	pair(const pair<U1, U2> &rhs) : first(rhs.first), second(rhs.second) { }
 
-	pair(const pair &rhs) : first(rhs.first), second(rhs.second) { }
+	pair(const pair<T1, T2> &rhs) : first(rhs.first), second(rhs.second) { }
 
 	template <typename U1, typename U2>
-	pair<T1, T2> & operator=(const pair<U1, U2> &rhs){
+	pair & operator=(const pair<U1, U2> &rhs){
 		this -> first = rhs.first;
 		this -> second = rhs.second;
 		return (*this);
 	}
 
-	pair<T1, T2> & operator=(const pair<T1, T2> &rhs){
+	pair & operator=(const pair &rhs){
 		this -> first = rhs.first;
 		this -> second = rhs.second;
 		return (*this);

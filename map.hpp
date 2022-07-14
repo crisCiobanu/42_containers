@@ -78,12 +78,13 @@ namespace ft
 				//return cmp(x.first, y.first) || (!cmp(y.first, x.first) && x.second < y.second);
 			}
 		      };
-
-
-
-          typedef typename rbtree<value_type, value_compare, allocator_type>::iterator           iterator;
-          typedef typename rbtree<value_type, value_compare, allocator_type>::const_iterator  const_iterator;
           typedef rbtree<value_type, value_compare, allocator_type> tree_type;
+
+
+          typedef typename tree_type::iterator iterator;
+          typedef typename tree_type::const_iterator const_iterator;
+          typedef typename tree_type::reverse_iterator reverse_iterator;
+          typedef typename tree_type::const_reverse_iterator const_reverse_iterator;
 
 
         private:
@@ -116,7 +117,7 @@ namespace ft
             //     return ;
             // }
             //
-            // ~map() {}
+
         public:
             explicit map(const key_compare& comp = key_compare(), const allocator_type& alloc = allocator_type()) :
 			tree(tree_type(value_compare(comp), alloc)), cmp(comp){}
@@ -137,13 +138,7 @@ namespace ft
 				this -> tree.printHelper(this -> tree.getRoot(), "", true);
 			}
 
-		// mapped_type& operator[]( const key_type& key ) {
-		// 	return tree.insert(ft::make_pair(key, mapped_type())).first->second;
-		// }
-
-
-
-
+            ~map() {}
 
             iterator begin()
             {
@@ -165,24 +160,24 @@ namespace ft
     			return tree.end();
     		}
 
-    		// reverse_iterator rbegin()
-            // {
-    		// 	return tree.rbegin();
-    		// }
+    		reverse_iterator rbegin()
+            {
+    			return tree.rbegin();
+    		}
 
-    		// const_reverse_iterator rbegin() const
-            // {
-    		// 	return tree.rbegin();
-    		// }
+    		const_reverse_iterator rbegin() const
+            {
+    			return tree.rbegin();
+    		}
 
-    		// reverse_iterator rend() {
-    		// 	return tree.rend();
-    		// }
+    		reverse_iterator rend() {
+    			return tree.rend();
+    		}
 
-    		// const_reverse_iterator rend() const
-            // {
-    		// 	return tree.rend();
-    		// }
+    		const_reverse_iterator rend() const
+            {
+    			return tree.rend();
+    		}
 
 
             bool empty() const
@@ -204,7 +199,7 @@ namespace ft
 
             mapped_type& operator[] (const key_type& k)
             {
-
+                return tree.insert_val(ft::make_pair(k, mapped_type())).first->second;
             }
 
             template <class InputIterator>
@@ -223,20 +218,32 @@ namespace ft
                 return tree.insert_val(val);
             }
 
-            // void erase (iterator position)
-            // {
-            //     deleteNodeHelper(position)
-            // }
-            //
-            // size_type erase (const key_type& k)
-            // {
-            //      return (tree.deleteNode(k));
-            // }
-            //
-            // void erase (iterator first, iterator last)
-            // {
-            //
-            // }
+            void erase (iterator position)
+            {
+                tree.deleteNodeHelper(position.getCurrent()->data);
+            }
+
+            size_type erase (const key_type& k)
+            {
+
+                iterator iter = find(k);
+                if(iter != end())
+                {
+                    erase(iter);
+                    return(1);
+                }
+                return(0);
+            }
+
+            void erase (iterator first, iterator last)
+            {
+                while(first != last)
+                {
+                    erase (first);
+                    first++;
+                }
+            }
+
             void swap (map& x)
             {
                 std::swap(this->cmp, x.cmp);

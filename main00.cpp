@@ -11,9 +11,10 @@ int main(void){
   	 map.insert ( ft::pair<int,int>(2, 200) );
 	ft::map< int,int >::iterator iter = map.begin();
 
-	std::cout << (*iter).first << std::endl;
+	// std::cout << (*iter).first << std::endl;
 	//(*iter).first = 200;
-	std::cout << (*iter).first << std::endl;
+	std::cout <<  map[1]<< std::endl;
+	// map.erase(iter);
 	 map.printTree();
 
 

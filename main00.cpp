@@ -14,7 +14,8 @@ int main(void){
 	// std::cout << (*iter).first << std::endl;
 	//(*iter).first = 200;
 	std::cout <<  map[1]<< std::endl;
-	// map.erase(iter);
+	// iter = map.find(1);
+	std::cout << map.erase(5) <<std::endl;
 	 map.printTree();
 
 

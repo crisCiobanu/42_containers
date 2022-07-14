@@ -121,8 +121,6 @@ class rbtree{
 
 		allocator_type get_allocator() const { return con_alloc; }
 
-		// node_pointer get_current()() const { return current; }
-
 		size_type max_size() const { return con_alloc.max_size(); }
 
 		//==============     BOUNDS           ==============
@@ -485,11 +483,11 @@ class rbtree{
 
 
 public:
-	int deleteNodeHelper(node_pointer node, const_reference value)
+	int deleteNodeHelper(const_reference value)
 	{
 		node_pointer x, y, z;
 
-		z = search(node, value);
+		z = search(value);
 		if (!z)
 			return 0;
 

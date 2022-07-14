@@ -1,6 +1,7 @@
 // Implementing Red-Black Tree in C++
 
 #include <iostream>
+#include <map>
 using namespace std;
 
 struct Node {

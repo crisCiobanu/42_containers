@@ -185,9 +185,18 @@ class rbtree{
 			return (search(value) ? const_iterator(search(value), this -> TNULL, this -> root) : this -> end());
 		}
 
+		ft::pair<iterator, bool> insert( const_reference value){
+			iterator tmp = this -> find(value);
+			if (tmp != this -> end())
+				return (ft::make_pair<iterator, bool>(tmp, false));
+			this -> insert(value);
+			return (ft::make_pair<iterator, bool>(this -> find(value), true));
+		}
+
 		void clear()
 		{
 			delete_all_node(this->root);
+
 			this->root = this->TNULL;
 			this->_size = 0;
 		}

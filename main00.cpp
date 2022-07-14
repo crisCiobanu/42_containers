@@ -1,11 +1,13 @@
-#include "vector.hpp"
+// #include "vector.hpp"
 #include "map.hpp"
 #include "utils.hpp"
+#include "vector0.hpp"
 
 
 int main(void){
 
 	 ft::map< int,int > map;
+	 ft::vector< int> vector;
 
 	 map.insert ( ft::pair<int,int>(1, 100) );
   	 map.insert ( ft::pair<int,int>(2, 200) );
@@ -15,6 +17,12 @@ int main(void){
 	//(*iter).first = 200;
 	std::cout <<  map[1]<< std::endl;
 	// iter = map.find(1);
+	vector.push_back(10);
+	vector.push_back(10);
+	vector.push_back(10);
+	for(ft::vector<int>::iterator iter2 = vector.begin(); iter2 < vector.end(); iter2++)
+		std::cout <<   *iter2  << std::endl;
+
 	std::cout << map.erase(5) <<std::endl;
 	 map.printTree();
 

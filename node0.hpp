@@ -216,12 +216,12 @@ class rbtree{
 		}
 
 		void swap(rbtree & rhs){
-			std::swap(this -> root, rhs -> root);
-			std::swap(this -> TNULL, rhs -> TNULL);
-			std::swap(this -> con_alloc, rhs -> con_alloc);
-			std::swap(this -> node_alloc, rhs -> node_alloc);
-			std::swap(this -> cmp, rhs -> cmp);
-			std::swap(this -> _size, rhs -> _size);
+			std::swap(this -> root, rhs.root);
+			std::swap(this -> TNULL, rhs.TNULL);
+			std::swap(this -> con_alloc, rhs.con_alloc);
+			std::swap(this -> node_alloc, rhs.node_alloc);
+			std::swap(this -> cmp, rhs.cmp);
+			std::swap(this -> _size, rhs._size);
 		}
 
 		value_compare value_comp() const { return this->cmp; }
@@ -626,7 +626,7 @@ public:
 
 };
 
-//==============     Comparison operations           ==============	
+//==============     Comparison operations           ==============
 
 	template<class T, class Compare, class Alloc >
 	bool operator==( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){

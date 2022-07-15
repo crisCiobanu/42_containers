@@ -5,9 +5,21 @@
 
 int main(void){
 
-	ft::vector<int> vec;
-	vec.push_back(12);
-	ft::vector<int> vec2(vec); 
+
+	// ft::vector<int> vec(10, 12);
+	// vec.push_back(12);
+	// ft::vector<int> vec2;
+	// vec2.push_back(1);
+	// vec2.push_back(2);
+	// std::cout << vec2[1] << " " << vec2.size() << std::endl;
+	// vec2 = vec;
+
+	// std::cout << vec2[1] << " " << vec2.size() << std::endl;
+
+	// std::vector<int> stdvec;
+	// stdvec.push_back(12);
+	// //stdvec.pop_back();
+	// std::cout << stdvec[2] << " " << vec2.size() << std::endl;
 
 
 	// ft::stack<int> mystack;

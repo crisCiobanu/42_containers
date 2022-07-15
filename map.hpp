@@ -190,32 +190,32 @@ namespace ft
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		
+		lhs.tree == rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-
+		lhs.tree != rhss.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-
+		lhs.tree < rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-
+		lhs.tree <= rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-
+		lhs.tree > rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-
+		lhs.tree >= rhs.tree;
 	}
 }
 

@@ -627,4 +627,36 @@ public:
 
 };
 
+//==============     Comparison operations           ==============	
+
+	template<class T, class Compare, class Alloc >
+	bool operator==( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return (lhs.size() == rhs.size()) && ft::equal(lhs.begin(), lhs.end(), rhs.begin());
+	}
+
+	template<class T, class Compare, class Alloc >
+	bool operator!=( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return !(lhs == rhs);
+	}
+
+	template<class T, class Compare, class Alloc >
+	bool operator<( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), Compare());
+	}
+
+	template<class T, class Compare, class Alloc >
+	bool operator<=( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return !(rhs < lhs);
+	}
+
+	template<class T, class Compare, class Alloc >
+	bool operator>( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return rhs < lhs;
+	}
+
+	template<class T, class Compare, class Alloc >
+	bool operator>=( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
+		return !(lhs < rhs);
+	}
+
 };

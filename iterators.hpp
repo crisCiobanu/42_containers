@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   my_iter.hpp                         :+:      :+:    :+:   */
+/*   iterators.hpp                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/04 14:39:13 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/05 18:02:27 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/15 13:44:54 by jperras          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@
 namespace ft{
 
 //=================================================================
-//==============           Iterator traits           ==============	
+//==============           Iterator traits           ==============
 //=================================================================
 
 
 template <class Iter>
 class iterator_traits {
-	public:	
+	public:
 		typedef typename Iter::iterator_category	iterator_category;
 		typedef typename Iter::value_type			value_type;
 		typedef typename Iter::difference_type		difference_type;
@@ -57,7 +57,7 @@ template<class T> struct remove_const { typedef T type; };
 template<class T> struct remove_const <const T> { typedef T type; };
 
 //=================================================================
-//==============           Vector iterator           ==============	
+//==============           Vector iterator           ==============
 //=================================================================
 
 
@@ -100,18 +100,18 @@ class my_iter{
 		reference operator[](const difference_type& offset) const { return this -> _ptr[offset];}
 
 
-		//==============     Increment / Decrement           ==============		
+		//==============     Increment / Decrement           ==============
 
 		my_iter& operator++(){ ++(this -> _ptr); return *this; }
 
-		my_iter operator++(int){ return (my_iter(_ptr++));}
+		my_iter operator++(int){ my_iter tmp(*this); ++_ptr; return tmp;}
 
 		my_iter& operator--(){ --(this -> _ptr); return *this; }
 
-		my_iter operator--(int){ return (my_iter(_ptr--)); }
-		
+		my_iter operator--(int){ my_iter tmp(*this); --_ptr; return tmp; }
 
-		//==============     Arithmetic operations           ==============	
+
+		//==============     Arithmetic operations           ==============
 
 		my_iter& operator+=(const difference_type& n) { this -> _ptr += n; return *this; }
 
@@ -124,7 +124,7 @@ class my_iter{
 		const my_iter &base() const { return this -> _ptr; }
 };
 
-//==============     Comparison operations           ==============	
+//==============     Comparison operations           ==============
 
 template < typename IteratorL, typename IteratorR>
 bool operator==(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) == &(*rhs); }
@@ -145,7 +145,7 @@ template < typename IteratorL, typename IteratorR>
 bool operator>=(const my_iter<IteratorL> & lhs, const my_iter<IteratorR> & rhs){ return &(*lhs) >= &(*rhs); }
 
 template < typename IteratorL, typename IteratorR>
-typename my_iter<IteratorL>::difference_type operator-(const my_iter<IteratorL> & lhs, 
+typename my_iter<IteratorL>::difference_type operator-(const my_iter<IteratorL> & lhs,
 	const my_iter<IteratorR> & rhs){ return &(*lhs) - &(*rhs); }
 
 template < typename Iterator>
@@ -157,7 +157,7 @@ my_iter<Iterator> operator+(const my_iter<Iterator> & iter, typename my_iter<Ite
 
 
 //=================================================================
-//==============           Tree iterators            ==============	
+//==============           Tree iterators            ==============
 //=================================================================
 
 template <typename U>
@@ -233,8 +233,8 @@ public:
 	tree_iterator(const tree_iterator<typename ft::remove_const<value_type>::type> &ref) {
 		*this = ref;
 	}
-	
-	
+
+
 	~tree_iterator() {}
 
 	tree_iterator &operator=(const tree_iterator<typename remove_const<value_type>::type> &ref)
@@ -255,7 +255,7 @@ public:
 	}
 	pointer operator->() const { return (&operator*()); }
 
-	//==============     Increment / Decrement           ==============	
+	//==============     Increment / Decrement           ==============
 
 	tree_iterator &operator++()
 	{
@@ -288,15 +288,15 @@ public:
 		return (tmp);
 	}
 
-	//==============     Getters           ==============		
+	//==============     Getters           ==============
 
 	node_pointer getRoot() const { return this -> root; }
 	node_pointer getCurrent() const { return this -> current; }
 	node_pointer getTNULL() const { return this -> TNULL; }
 
 };
-//==============     Comparison operations           ==============	
-	
+//==============     Comparison operations           ==============
+
 template < typename IteratorL, typename IteratorR>
 bool operator==(const tree_iterator<IteratorL> & lhs, const tree_iterator<IteratorR> & rhs){ return &(*lhs) == &(*rhs); }
 
@@ -305,7 +305,7 @@ bool operator!=(const tree_iterator<IteratorL> & lhs, const tree_iterator<Iterat
 
 
 //=================================================================
-//==============           Reverse iterator          ==============	
+//==============           Reverse iterator          ==============
 //=================================================================
 
 
@@ -338,14 +338,14 @@ public:
     reference operator*() const {Iter tmp = current; return *--tmp;}
     pointer  operator->() const {return std::addressof(operator*());}
 
-	//==============     Increment / Decrement           ==============	
+	//==============     Increment / Decrement           ==============
 
     reverse_iterator& operator++() {--current; return *this;}
     reverse_iterator  operator++(int) {reverse_iterator tmp(*this); --current; return tmp;}
     reverse_iterator& operator--() {++current; return *this;}
     reverse_iterator  operator--(int) {reverse_iterator tmp(*this); ++current; return tmp;}
 
-	//==============     Arithmetic operations           ==============	
+	//==============     Arithmetic operations           ==============
 
     reverse_iterator  operator+ (difference_type n) const {return reverse_iterator(current - n);}
     reverse_iterator& operator+=(difference_type n) {current -= n; return *this;}
@@ -354,7 +354,7 @@ public:
     reference         operator[](difference_type n) const {return *(*this + n);}
 };
 
-//==============     Comparison operations           ==============	
+//==============     Comparison operations           ==============
 
 template <class IteratorL, class IteratorR>
 bool operator==(const reverse_iterator<IteratorL>& lhs, const reverse_iterator<IteratorR>& rhs) { return lhs.base() == rhs.base(); }
@@ -381,7 +381,7 @@ operator<=(const reverse_iterator<IteratorL>& lhs, const reverse_iterator<Iterat
     return lhs.base() >= rhs.base();
 }
 
-//==============     Arithmetic operations           ==============	
+//==============     Arithmetic operations           ==============
 
 template <class IteratorL, class IteratorR>
 typename reverse_iterator<IteratorL>::difference_type

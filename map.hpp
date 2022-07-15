@@ -2,15 +2,15 @@
 # define MAP_HPP
 # include "utils.hpp"
 # include "node0.hpp"
-# include <functional>  
-# include <memory>      
+# include <functional>
+# include <memory>
 
 namespace ft
 {
-    template < class Key,                            
-           class T,                                   
-           class Compare = std::less<Key>,           
-           class Alloc = std::allocator<ft::pair<const Key,T> > > 
+    template < class Key,
+           class T,
+           class Compare = std::less<Key>,
+           class Alloc = std::allocator<ft::pair<const Key,T> > >
     class map
     {
         public:
@@ -161,7 +161,7 @@ namespace ft
 
             const_iterator find (const key_type& k) const { return tree.find(ft::make_pair(k, mapped_type())); }
 
-		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0) ;} 
+		    size_type count (const key_type& k) const { return (find(k) != end() ? 1 : 0) ;}
 
             allocator_type get_allocator() const { return tree.get_allocator(); }
 
@@ -183,10 +183,10 @@ namespace ft
 			// void printTree(){
 			// 	this -> tree.printHelper(this -> tree.getRoot(), "", true);
 			// }
-	
+
 	};
 
-	//==============     Comparison operations           ==============	
+	//==============     Comparison operations           ==============
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
@@ -195,7 +195,7 @@ namespace ft
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree != rhss.tree;
+		lhs.tree != rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >

@@ -3,6 +3,11 @@
 #include "utils.hpp"
 #include "vector0.hpp"
 #include "stack.hpp"
+#include <stack>
+#include <iostream>       // std::cout
+#include <stack>          // std::stack
+#include <vector>         // std::vector
+#include <deque>          // std::deque
 
 
 int main(void)
@@ -29,12 +34,17 @@ int main(void)
 
 	ft::stack<int> mystack;
 
+
+
 	  for (int i=0; i<5; ++i) mystack.push(i);
+	   	ft::stack<int> mystack2(mystack);
 	  std::cout << "Popping out elements...";
 	  while (!mystack.empty())
 	  {
 	     std::cout << ' ' << mystack.top();
+		 std::cout << ' ' << mystack2.top();
 	     mystack.pop();
+		 // mystack2.pop();
 	  }
 	  std::cout << '\n';
 

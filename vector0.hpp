@@ -90,7 +90,7 @@ namespace ft
             }
 
             vector (const vector& x)
-            : _alloc(allocator_type()), _vector(NULL),_size(0),_capacity(0)
+            : _alloc(allocator_type()), _vector(nullptr),_size(0),_capacity(0)
             {
               *this = x;
             }
@@ -254,9 +254,9 @@ namespace ft
                 size_type n = last - first;
                 if (n == 0)
                     return;
-                if (n > this->_capactiy)
+                if (n > this->_capacity)
                 {
-                    _alloc.deallocate(this->vector, this->_capacity);
+                    _alloc.deallocate(this->_vector, this->_capacity);
                     this->_vector = _alloc.allocate(n);
                     this->_capacity = n;
                 }

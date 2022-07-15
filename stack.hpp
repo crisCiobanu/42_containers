@@ -16,10 +16,20 @@ class stack
         container_type _container;
 
     public :
-        explicit stack (const container_type& ctnr = container_type())
+        explicit stack (const container_type& ctnr = container_type()):_container(ctnr)
         {
-
         }
+
+        stack& operator=(const stack& other) {
+          if (this != &other) {
+            this->_container = other._container;
+          }
+          return (*this);
+        }
+
+        stack(const stack& other): _container(other._container) {}
+
+        ~stack() {}
 
         bool empty() const
         {

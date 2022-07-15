@@ -1,18 +1,30 @@
-#include "vector.hpp"
 #include "node0.hpp"
 #include <map>
-#include "set.hpp"
+#include <vector>
+#include "stack.hpp"
 
 int main(void){
 
-	ft::set<int> st;
+	ft::vector<int> vec;
+	vec.push_back(12);
+	ft::vector<int> vec2(vec); 
 
-	st.insert(10);
-	st.insert(50);
-	st.insert(-10);
-	st.erase(10);
 
-	std::cout << st.size() << std::endl;
+	// ft::stack<int> mystack;
+
+
+
+	//   for (int i=0; i<5; ++i) mystack.push(i);
+	//    	ft::stack<int> mystack2(mystack);
+	//   std::cout << "Popping out elements...";
+	//   while (!mystack.empty())
+	//   {
+	//      std::cout << ' ' << mystack.top();
+	// 	 std::cout << ' ' << mystack2.top();
+	//      mystack.pop();
+	// 	 // mystack2.pop();
+	//   }
+	//   std::cout << '\n';
 
 	// std::pair<int , std::string> first = std::pair<int , std::string>(100, "first");
 	// std::pair<int , std::string> second = std::pair<int , std::string>(200, "second");

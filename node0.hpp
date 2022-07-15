@@ -1,6 +1,5 @@
 #pragma once
 
-using namespace std;
 #include "iterators.hpp"
 #include "utils.hpp"
 
@@ -607,19 +606,19 @@ public:
 		return (this->root);
 	}
 
-	void printHelper(node_pointer root, string indent, bool last) {
+	void printHelper(node_pointer root, std::string indent, bool last) {
     	if (root != TNULL) {
-      		cout << indent;
+      		std::cout << indent;
       	if (last) {
-        	cout << "R----";
+        	std::cout << "R----";
         	indent += "   ";
       	} else {
-        	cout << "L----";
+        	std::cout << "L----";
         	indent += "|  ";
       	}
 
-      string sColor = root->color ? "RED" : "BLACK";
-      cout << root->data.first << " " << root-> data.second  << "(" << sColor << ")" << endl;
+      std::string sColor = root->color ? "RED" : "BLACK";
+      std::cout << root->data.first << " " << root-> data.second  << "(" << sColor << ")" << std::endl;
       printHelper(root->left, indent, false);
       printHelper(root->right, indent, true);
     }

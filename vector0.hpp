@@ -89,8 +89,8 @@ namespace ft
                 return ;
             }
 
-            vector (const vector& x)
-            : _alloc(allocator_type()), _vector(nullptr),_size(0),_capacity(0)
+            vector (const vector &x)
+            : _size(0),_capacity(0)
             {
               *this = x;
             }
@@ -102,15 +102,24 @@ namespace ft
               _alloc.deallocate(_vector, _capacity);
             }
 
-            vector& operator=(vector const &rhs)
+			vector& operator=(const vector &x)
             {
-                if (this == &rhs)
-                    return (*this);
-                clear();
-                assign(rhs.begin(), rhs.end());
-                return (*this);
-
+			if (this == &x)
+				return *this;
+			for (size_type i = 0; i < _size; i++)
+				_alloc.destroy(_vector + i);
+			this->_size = x._size;
+			if (this->_capacity < this->_size) {
+				if (this->_capacity)
+					this->_alloc.deallocate(this->_vector, this->_capacity);
+				this->_capacity = this->_size;
+				this->_vector = this->_alloc.allocate(this->_capacity);
+			}
+			for (size_type i = 0; i < this->_size; i++)
+				this->_alloc.construct(this->_vector + i, x[i]);
+			return *this;
             }
+
             // Iterators:
             iterator begin()
             {

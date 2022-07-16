@@ -89,6 +89,47 @@ int main(void)
    //=================================================================
    //======================================       map     ========================================
    //=================================================================
+	std::chrono::time_point<std::chrono::system_clock> mapstdstart = std::chrono::system_clock::now();
+	std::map<int, int> stdmap;
+	for(int i = 0; i <10000000; i++)
+		stdmap.insert ( std::pair<int,int>(i, i+1) );
+	// for(int i = 0; i <10000000; i++)
+	// 	stdmap.erase(i);
+	std::chrono::time_point<std::chrono::system_clock> mapstdend = std::chrono::system_clock::now();
+	elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(mapstdend - mapstdstart).count();
+	std::cout << "std::elapsed time: " << elapsed_seconds << "milliseconds" << std::endl;
+	std::chrono::time_point<std::chrono::system_clock> mapftstart = std::chrono::system_clock::now();
+	ft::map<int,int> ftmap;
+	for(int i = 0; i <10000000; i++)
+		ftmap.insert ( ft::pair<int,int>(i, i+1) );
+	// for(int i = 0; i <10000000; i++)
+	// 	ftmap.erase(i);
+	std::chrono::time_point<std::chrono::system_clock> mapftend = std::chrono::system_clock::now();
+	elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(mapftend - mapftstart).count();
+	std::cout << "ft::elapsed time: " << elapsed_seconds << "milliseconds" << std::endl;
+
+	std::chrono::time_point<std::chrono::system_clock> mapstdstartfind = std::chrono::system_clock::now();
+	long long int stdsum = 0;
+	for(int i = 0; i <50000; i++)
+	{
+		stdsum += stdmap.find(i) -> first;
+		stdsum += stdmap.find(i+700000) -> first;
+	}
+	std::chrono::time_point<std::chrono::system_clock> mapstdendfind = std::chrono::system_clock::now();
+	elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(mapstdendfind - mapstdstartfind).count();
+	std::cout << "std find ::elapsed time: " << elapsed_seconds << "milliseconds" << " the sum is : " << stdsum << std::endl;
+
+	std::chrono::time_point<std::chrono::system_clock> mapftstartfind = std::chrono::system_clock::now();
+	long long int ftsum = 0;
+	for(int i = 0; i < 50000; i++)
+	{
+		ftsum += ftmap.find(i) -> first;
+		ftsum += ftmap.find(i+700000) -> first;
+	}
+	std::chrono::time_point<std::chrono::system_clock> mapftendfind = std::chrono::system_clock::now();
+	elapsed_seconds = std::chrono::duration_cast<std::chrono::milliseconds>(mapftendfind - mapftstartfind).count();
+	std::cout << "ft find ::elapsed time: " << elapsed_seconds << "milliseconds" << " the sum is : " << ftsum << std::endl;
+
 	ft::map<char,int> mymap;
 	for(int i = 65; i < 127; i++)
 		mymap.insert ( ft::pair<char,int>(i,100 + i) );
@@ -117,8 +158,9 @@ int main(void)
      std::cout << it->first << " => " << it->second << '\n';
 
    std::cout << "anothermap contains:\n";
-   for (it=anothermap.begin(); it!=anothermap.end(); ++it)
-     std::cout << it->first << " => " << it->second << '\n';
+   // for (it=anothermap.begin(); it!=anothermap.end(); ++it)
+   //   std::cout << it->first << " => " << it->second << '\n';
+   anothermap.printTree();
 
 	//=================================================================
 	//==============         swap        ==============
@@ -161,16 +203,29 @@ int main(void)
  //=================================================================
 	std::cout << "Stack";
  	ft::stack<int> mystack;
-
+	ft::stack<int> mystack2;
    for (int i=0; i<100; ++i) mystack.push(i);
 
    std::cout << "size: " << mystack.size() << '\n';
    std::cout << "Popping out elements...";
-
+ 	mystack2=mystack;
    while (!mystack.empty())
    {
       std::cout << ' ' << mystack.top();
       mystack.pop();
+   }
+   std::cout << "\negalité\n";
+	ft::stack<int> mystack3(mystack2);
+   while (!mystack2.empty())
+   {
+      std::cout << ' ' << mystack2.top();
+      mystack2.pop();
+   }
+   std::cout << "\nrecopie\n";
+   while (!mystack3.empty())
+   {
+      std::cout << ' ' << mystack3.top();
+      mystack3.pop();
    }
    std::cout << "\nfinit\n";
 
@@ -178,27 +233,16 @@ int main(void)
 //======================================      set      ========================================
 //=================================================================
 
-  // ft::set<int> myset;
-  // ft::set<int>::iterator it3;
-  // ft::pair<ft::set<int>::iterator,bool> ret2;
-  //
-  // // set some initial values:
-  // for (int i=1; i<=5; ++i) myset.insert(i*10);    // set: 10 20 30 40 50
-  //
-  // ret2 = myset.insert(20);               // no new element inserted
-  //
-  // if (ret2.second==false) it3=ret2.first;  // "it" now points to element 20
-  //
-  // myset.insert (it3,25);                 // max efficiency inserting
-  // myset.insert (it3,24);                 // max efficiency inserting
-  // myset.insert (it3,26);                 // no max efficiency inserting
-  //
-  // int myints[]= {5,10,15};              // 10 already in set, not inserted
-  // myset.insert (myints, myints+3);
-  //
-  // std::cout << "myset contains:";
-  // for (it3=myset.begin(); it3!=myset.end(); ++it)
-  //   std::cout << ' ' << *it3;
-  // std::cout << '\n';
+  ft::set<int> myset;
+
+  // set some initial values:
+  for (int i=1; i<=5; ++i) myset.insert(i*10);    // set: 10 20 30 40 50
+
+  std::cout << "myset contains:";
+   ft::set<int>::iterator it3;
+
+  for (it3 = myset.begin(); it3 != myset.end(); ++it3)
+    std::cout << ' ' << *it3;
+  std::cout << '\n';
 
 }

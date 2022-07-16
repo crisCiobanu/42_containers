@@ -180,11 +180,11 @@ namespace ft
             pair<iterator,iterator>             equal_range (const key_type& k) { return tree.equal_range(ft::make_pair(k, mapped_type())); }
 
 
-			// void printTree(){
-			// 	this -> tree.printHelper(this -> tree.getRoot(), "", true);
-			// }
+			void printTree(){
+				this -> tree.printHelper(this -> tree.getRoot(), "", true);
+			}
 
-			//==============     Comparison operations           ==============	
+			//==============     Comparison operations           ==============
 
 			template< class K, class Type, class Comp, class All >
 			friend bool operator==( const ft::map<K, Type, Comp,All>& lhs, const ft::map<K, Type, Comp,All>& rhs );

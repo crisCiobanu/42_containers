@@ -46,7 +46,7 @@ namespace ft
     		set(InputIt first, InputIt last, const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
             : tree(tree_type(first, last, comp, alloc)) {}
 
-    		set(const set& other): tree(tree_type(other.tree)) {}
+    		set(const set& other){ *this= other; }
 
     		set& operator=(const set& other) {
     			this->tree = other.tree;

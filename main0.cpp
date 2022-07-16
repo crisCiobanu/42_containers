@@ -2,8 +2,29 @@
 #include <map>
 #include <vector>
 #include "stack.hpp"
+#include "set.hpp"
+#include <set>
 
 int main(void){
+
+
+	ft::set<std::string> st;
+
+	st.insert("1first");
+	st.insert("2second");
+	st.insert("3third");
+
+	std::cout << "Set size : " << st.size() << " is empty : " << (st.empty() ? "YES" : "NO") << " ,  First : " << *(st.begin()) << " , Last : " << *(--st.end()) << std::endl;
+
+	ft::set<std::string> st1(st);
+
+	std::cout << "Set size : " << st1.size() << " is empty : " << (st1.empty() ? "YES" : "NO") << " ,  First : " << *(st1.begin()) << " , Last : " << *(--st1.end()) << std::endl;
+
+
+	std::set<std::string> std1;
+
+	std1.insert("ascdfdsf");
+	std::set<std::string> std2(std1);
 
 
 	// ft::vector<int> vec(10, 12);

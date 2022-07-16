@@ -1,15 +1,15 @@
 #ifndef SET_HPP
 # define SET_HPP
 # include "utils.hpp"
-# include "node0.hpp"
+# include "rbtree.hpp"
 # include <functional>  // std::less
 # include <memory>      // std::allocator
 
 namespace ft
 {
-    template < class T,                            
-           class Compare = std::less<T>, 
-           class Alloc = std::allocator<T> > 
+    template < class T,
+           class Compare = std::less<T>,
+           class Alloc = std::allocator<T> >
     class set
     {
         public:
@@ -124,7 +124,7 @@ namespace ft
                     first++;
                 }
             }
-			
+
             void swap (set& x) { tree.swap(x.tree); }
 
             void clear() { tree.clear(); }
@@ -161,14 +161,14 @@ namespace ft
 			// 	this -> tree.printHelper(this -> tree.getRoot(), "", true);
 			// }
 
-			//==============     Comparison operations           ==============	
+			//==============     Comparison operations           ==============
 			template< class K, class Comp, class All >
 			friend bool operator==( const ft::set<K,Comp,All>& lhs, const ft::set<K,Comp,All>& rhs );
 			template< class K, class Comp, class All >
 			friend bool operator<( const ft::set<K,Comp,All>& lhs, const ft::set<K,Comp,All>& rhs );
     };
 
-	//==============     Comparison operations           ==============	
+	//==============     Comparison operations           ==============
 
 	template< class T, class Compare, class Alloc >
 	bool operator==( const ft::set<T,Compare,Alloc>& lhs, const ft::set<T,Compare,Alloc>& rhs ){

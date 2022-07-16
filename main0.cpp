@@ -7,26 +7,63 @@
 #include <set>
 
 int main(void){
+	ft::map<int, int> mp;
+
+	mp.insert(ft::make_pair(1, 140));
+	mp.insert(ft::make_pair(2, 140));
+	mp.insert(ft::make_pair(3, 140));
+
+	std::cout << "Map size : " << mp.size() << " is empty : " << (mp.empty() ? "YES" : "NO") << " ,  First : " << mp.begin() -> first << " , Last : " << std::endl;
+
+	// ft::map<int, int> mp1 = mp;
+	ft::map<int, int> mp1(mp);
+
+	//mp1.insert(ft::make_pair("first", 5646));
 
 
-	ft::set<std::string> st;
+	std::cout << "Map size : " << mp1.size() << " is empty : " << (mp1.empty() ? "YES" : "NO") << " ,  First : " << mp1.begin() -> first << " , Last : "  << std::endl;
 
-	st.insert("1first");
-	st.insert("2second");
-	st.insert("3third");
+	mp1.erase(2);
+	mp1.insert(ft::make_pair(2, 160));
 
-	std::cout << "Set size : " << st.size() << " is empty : " << (st.empty() ? "YES" : "NO") << " ,  First : " << *(st.begin()) << " , Last : " << *(--st.end()) << std::endl;
+	std::cout << "Map size : " << mp.size() << " is empty : " << (mp.empty() ? "YES" : "NO") << " ,  First : " << mp.begin() -> first << " , Last : " << std::endl;
+	std::cout << "Map size : " << mp1.size() << " is empty : " << (mp1.empty() ? "YES" : "NO") << " ,  First : " << mp1.begin() -> first << " , Last : "  << std::endl;
 
-	ft::set<std::string> st1(st);
+	std::cout << "EQUALITY COMPARISION" << std::endl;
 
-	std::cout << "Set size : " << st1.size() << " is empty : " << (st1.empty() ? "YES" : "NO") << " ,  First : " << *(st1.begin()) << " , Last : " << *(--st1.end()) << std::endl;
+	std::cout << "mp == mp1 : " << (mp == mp1) << std::endl;
+	std::cout << "mp != mp1 : " << (mp != mp1) << std::endl;
+	std::cout << "mp > mp1 : " << (mp > mp1) << std::endl;
+	std::cout << "mp < mp1 : " << (mp < mp1) << std::endl;
+	std::cout << "mp >= mp1 : " << (mp >= mp1) << std::endl;
+	std::cout << "mp <= mp1 : " << (mp <= mp1) << std::endl;
 
-	st1.erase("3third");
+	// ft::set<std::string> st;
 
-	std::cout << "Set size : " << st.size() << " is empty : " << (st.empty() ? "YES" : "NO") << " ,  First : " << *(st.begin()) << " , Last : " << *(--st.end()) << std::endl;
-	std::cout << "Set size : " << st1.size() << " is empty : " << (st1.empty() ? "YES" : "NO") << " ,  First : " << *(st1.begin()) << " , Last : " << *(--st1.end()) << std::endl;
+	// st.insert("1first");
+	// st.insert("2second");
+	// st.insert("3third");
 
-	ft::map<int, std::string> mp;
+	// std::cout << "Set size : " << st.size() << " is empty : " << (st.empty() ? "YES" : "NO") << " ,  First : " << *(st.begin()) << " , Last : " << *(--st.end()) << std::endl;
+
+	// ft::set<std::string> st1 = st;
+
+	// std::cout << "Set size : " << st1.size() << " is empty : " << (st1.empty() ? "YES" : "NO") << " ,  First : " << *(st1.begin()) << " , Last : " << *(--st1.end()) << std::endl;
+
+	// st1.erase("3third");
+	// st1.insert("3third");
+
+	// std::cout << "Set size : " << st.size() << " is empty : " << (st.empty() ? "YES" : "NO") << " ,  First : " << *(st.begin()) << " , Last : " << *(--st.end()) << std::endl;
+	// std::cout << "Set size : " << st1.size() << " is empty : " << (st1.empty() ? "YES" : "NO") << " ,  First : " << *(st1.begin()) << " , Last : " << *(--st1.end()) << std::endl;
+
+	// std::cout << "EQUALITY COMPARISION" << std::endl;
+
+	// std::cout << "st == st1 : " << (st == st1) << std::endl;
+	// std::cout << "st != st1 : " << (st != st1) << std::endl;
+	// std::cout << "st > st1 : " << (st > st1) << std::endl;
+	// std::cout << "st < st1 : " << (st < st1) << std::endl;
+	// std::cout << "st >= st1 : " << (st >= st1) << std::endl;
+	// std::cout << "st <= st1 : " << (st <= st1) << std::endl;
 
 
 

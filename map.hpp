@@ -184,38 +184,45 @@ namespace ft
 			// 	this -> tree.printHelper(this -> tree.getRoot(), "", true);
 			// }
 
+			//==============     Comparison operations           ==============	
+
+			template< class K, class Type, class Comp, class All >
+			friend bool operator==( const ft::map<K, Type, Comp,All>& lhs, const ft::map<K, Type, Comp,All>& rhs );
+			template< class K, class Type, class Comp, class All >
+			friend bool operator<( const ft::map<K, Type, Comp,All>& lhs, const ft::map<K, Type, Comp,All>& rhs );
+
 	};
 
 	//==============     Comparison operations           ==============
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator==( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree == rhs.tree;
+		return lhs.tree == rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator!=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree != rhs.tree;
+		return !(lhs == rhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator<( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree < rhs.tree;
+		return lhs.tree < rhs.tree;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator<=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree <= rhs.tree;
+		return !(rhs < lhs);
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator>( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree > rhs.tree;
+		return rhs < lhs;
 	}
 
 	template< class Key, class T, class Compare, class Alloc >
 	bool operator>=( const ft::map<Key,T,Compare,Alloc>& lhs, const ft::map<Key,T,Compare,Alloc>& rhs ){
-		lhs.tree >= rhs.tree;
+		return !(lhs < rhs);
 	}
 }
 

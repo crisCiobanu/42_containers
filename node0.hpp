@@ -240,14 +240,14 @@ class rbtree{
 		}
 
 
-		node_pointer minimum(node_pointer node)	{
+		node_pointer minimum(node_pointer node) const {
 		while (node->left != TNULL)
     			node = node->left;
 		return node;
 		}
 
 
-  node_pointer maximum(node_pointer node) {
+  node_pointer maximum(node_pointer node) const {
     while (node->right != TNULL) {
       node = node->right;
     }
@@ -642,7 +642,7 @@ public:
 
 	template<class T, class Compare, class Alloc >
 	bool operator<( const ft::rbtree<T,Compare,Alloc>& lhs, const ft::rbtree<T,Compare,Alloc>& rhs ){
-		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end(), Compare());
+		return ft::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
 	}
 
 	template<class T, class Compare, class Alloc >

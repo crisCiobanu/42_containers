@@ -6,7 +6,7 @@
 /*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/14 14:16:55 by cciobanu         ###   ########.fr       */
+/*   Updated: 2022/07/16 11:57:42 by cciobanu         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,13 +29,16 @@ struct Node {
 
 
 	Node():data(value_type()), parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false){}
-	Node(const Node &rhs)
-	{
-		*this = rhs;
-		return;
-	}
-	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false), data(rhs){
-	};
+	// Node(const Node &rhs)
+	// {
+	// 	*this = rhs;
+	// 	return;
+	// }
+	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false), data(rhs){};
+
+	Node(const Node &rhs) : parent(rhs.parent),left(rhs.left), right(rhs.right),color(rhs.color), is_null(rhs.is_null), data(rhs.data){}
+	
+
 
 	Node& operator=(const Node &rhs)
 	{
@@ -81,7 +84,7 @@ struct pair{
 		return (*this);
 	}
 
-	pair & operator=(const pair &rhs){
+	pair & operator=(const pair &rhs)/*: first(rhs.first), second(rhs.second) */{
 		this -> first = rhs.first;
 		this -> second = rhs.second;
 		return (*this);

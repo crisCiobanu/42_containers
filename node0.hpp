@@ -53,8 +53,6 @@ class rbtree{
 			this->root = this->TNULL;
 		}
 
-		rbtree(const_reference rhs) : root(0), cmp(rhs.cmp) { *this = rhs; }
-
 		~rbtree() { delete_all_node(this->root); }
 
 		rbtree &operator=(rbtree const &rhs)
@@ -67,7 +65,7 @@ class rbtree{
 			if (this -> root == NULL)
 				init_tree();
 			else 
-				delete_all_node(this->root);
+			delete_all_node(this->root);
 			if (rhs._size == 0)
 				this->root = this->TNULL;
 			else
@@ -426,7 +424,7 @@ class rbtree{
 	}
 	void init_tree() {
 		TNULL = node_alloc.allocate(1);
-		node_alloc.construct( TNULL, Node<Value>());
+		node_alloc.construct( TNULL, value_type());
 		TNULL -> color = 0;
 		TNULL -> is_null = 1;
 	}

@@ -132,7 +132,14 @@ int main(void)
 	ft::map<char,int> mymap;
 	for(int i = 65; i < 127; i++)
 		mymap.insert ( ft::pair<char,int>(i,100 + i) );
-
+	//=================================================================
+    //==============         recopy_constructor         ==============
+    //=================================================================
+	std::cout << "---------------------------------" << '\n';
+   ft::map<char,int> mymap2(mymap);
+   for (ft::map<char,int>::iterator it=mymap2.begin(); it!=mymap2.end(); ++it)
+	 std::cout << it->first << " => " << it->second << '\n';
+   std::cout << "---------------------------------" << '\n';
    ft::pair<ft::map<char,int>::iterator,bool> ret;
    ret = mymap.insert ( ft::pair<char,int>('z',500) );
    if (ret.second==false) {

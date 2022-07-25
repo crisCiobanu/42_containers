@@ -1,7 +1,7 @@
 #ifndef MAP_HPP
 # define MAP_HPP
 # include "utils.hpp"
-# include "node0.hpp"
+# include "rbtree.hpp"
 # include <functional>
 # include <memory>
 
@@ -60,7 +60,7 @@ namespace ft
     		map(InputIt first, InputIt last, const Compare& comp = Compare(), const allocator_type& alloc = allocator_type())
             : tree(tree_type(first, last, value_compare(comp), alloc)),cmp(comp) {}
 
-    		map(const map& other) { *this = other; }
+    		map(const map& other): tree(other.tree), cmp(other.cmp) {}
 
     		map& operator=(const map& other) {
     			this->tree = other.tree;

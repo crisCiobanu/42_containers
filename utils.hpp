@@ -1,15 +1,3 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   utils.hpp                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: cciobanu <cciobanu@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/07/08 16:18:48 by cciobanu          #+#    #+#             */
-/*   Updated: 2022/07/16 11:57:42 by cciobanu         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
-
 #pragma once
 
 #include <iostream>
@@ -37,7 +25,7 @@ struct Node {
 	Node(const value_type &rhs):parent(nullptr),left(nullptr), right(nullptr),color(true), is_null(false), data(rhs){};
 
 	Node(const Node &rhs) : parent(rhs.parent),left(rhs.left), right(rhs.right),color(rhs.color), is_null(rhs.is_null), data(rhs.data){}
-	
+
 
 
 	Node& operator=(const Node &rhs)
@@ -89,7 +77,7 @@ struct pair{
 		this -> second = rhs.second;
 		return (*this);
 	}
-	
+
 };
 
 //==============     Comparison operations           ==============

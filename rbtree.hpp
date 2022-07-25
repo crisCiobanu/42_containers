@@ -53,7 +53,7 @@ class rbtree{
 			this->root = this->TNULL;
 		}
 
-		~rbtree() { delete_all_node(this->root); }
+		~rbtree() { }
 
 		rbtree &operator=(rbtree const &rhs)
 		{

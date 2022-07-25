@@ -402,8 +402,6 @@ class rbtree{
     insertFix(node);
   }
 
-
-
 	private:
 
 	node_pointer search(const_reference value){
